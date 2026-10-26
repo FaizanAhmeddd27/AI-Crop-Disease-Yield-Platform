@@ -1,0 +1,19 @@
+# Dependency deltas for Kaggle kernels.
+#
+# Kaggle's Python image already ships torch, torchvision, numpy, pandas,
+# scikit-learn, opencv, matplotlib and usually timm. Installing torch again
+# from PyPI can replace the CUDA-matched wheel and break the GPU, so it is
+# deliberately absent here. `00_kaggle_setup.ipynb` installs only what is
+# missing, using this list as the reference.
+#
+# No experiment-tracking server is used: runs are recorded as JSON under
+# artifacts/runs/ (see docs/adr/0012-drop-mlflow.md).
+
+shap>=0.46,<1.0
+grad-cam>=1.5,<2.0
+optuna>=4.0,<5.0
+albumentations>=1.4,<3.0
+onnx>=1.16,<2.0
+onnxruntime>=1.19,<2.0
+PyYAML>=6.0,<7.0
+xgboost>=2.1,<4.0

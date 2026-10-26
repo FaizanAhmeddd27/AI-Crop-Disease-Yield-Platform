@@ -1,0 +1,9 @@
+# Experiment Y-01: Linear & Regularized Regression Baselines
+exp_id: "Y-01-ridge"
+model_name: "ridge"
+alpha: 10.0
+scale_numerical: true
+split:
+  train_end_year: 2021
+  val_year: 2022
+  test_start_year: 2023

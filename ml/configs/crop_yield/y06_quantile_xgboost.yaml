@@ -1,0 +1,12 @@
+# Experiment Y-06: Quantile Regression Ensemble for 80% Prediction Interval [p10, p90]
+exp_id: "Y-06-quantile-ensemble"
+model_name: "quantile_ensemble"
+n_estimators: 200
+max_depth: 4
+learning_rate: 0.05
+quantiles: [0.10, 0.50, 0.90]
+random_state: 42
+split:
+  train_end_year: 2021
+  val_year: 2022
+  test_start_year: 2023

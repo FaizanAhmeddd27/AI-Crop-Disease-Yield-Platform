@@ -1,0 +1,2382 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AgriSense AI API",
+    "description": "Crop disease detection and yield prediction API. Decision support only — not a substitute for a local agronomist.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Liveness probe",
+        "description": "Cheap liveness check — used by hosts and uptime monitors.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/ready": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Readiness probe",
+        "description": "Reports per-dependency state.\n\n`MODEL_NOT_READY` (503) is returned only when models are *required* and\nmissing (AC-5). While `REQUIRE_MODELS=false` — Phase 0 up to model\npromotion — missing models read as `degraded`, not `not_ready`, so the\nskeleton stays deployable.",
+        "operationId": "readiness_api_v1_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "A required dependency is unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/models": {
+      "get": {
+        "tags": [
+          "platform"
+        ],
+        "summary": "Active model metadata",
+        "description": "Feeds the About / Model-transparency page (FR-UI-009).",
+        "operationId": "models_api_v1_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register a new user account",
+        "description": "Register a new farmer or agronomist account and return an access token.",
+        "operationId": "register_api_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegister"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticate and receive JWT token",
+        "description": "Login with email and password to receive an access token.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get current user profile",
+        "description": "Return the profile of the authenticated user.",
+        "operationId": "get_me_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Update current user profile",
+        "description": "Update profile information (full_name, phone_number, preferred_language).",
+        "operationId": "update_me_api_v1_auth_me_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Change account password",
+        "description": "Change the authenticated user's password.",
+        "operationId": "change_password_api_v1_auth_change_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChange"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Change Password Api V1 Auth Change Password Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/history/disease": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get user's disease scan history",
+        "description": "Retrieve chronologically ordered list of disease predictions for the authenticated user.",
+        "operationId": "get_disease_history_api_v1_auth_history_disease_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DiseaseHistoryItem"
+                  },
+                  "title": "Response Get Disease History Api V1 Auth History Disease Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/history/disease/{prediction_id}": {
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Delete a disease scan record from history",
+        "description": "Delete a user-owned disease prediction (NFR-PR-003 privacy data deletion).",
+        "operationId": "delete_disease_history_item_api_v1_auth_history_disease__prediction_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "prediction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Prediction Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Delete Disease History Item Api V1 Auth History Disease  Prediction Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/history/yield": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get user's crop yield history",
+        "description": "Retrieve chronologically ordered list of yield predictions for the authenticated user.",
+        "operationId": "get_yield_history_api_v1_auth_history_yield_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/YieldHistoryItem"
+                  },
+                  "title": "Response Get Yield History Api V1 Auth History Yield Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/history/yield/{prediction_id}": {
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Delete a yield prediction record from history",
+        "description": "Delete a user-owned yield prediction (NFR-PR-003 privacy data deletion).",
+        "operationId": "delete_yield_history_item_api_v1_auth_history_yield__prediction_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "prediction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Prediction Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Delete Yield History Item Api V1 Auth History Yield  Prediction Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/history/stats": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get aggregated summary statistics for the user",
+        "description": "Get aggregated metrics for the user dashboard.",
+        "operationId": "get_history_stats_api_v1_auth_history_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryStatsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/disease/predict": {
+      "post": {
+        "tags": [
+          "disease"
+        ],
+        "summary": "Classify leaf disease from uploaded image",
+        "description": "Accept a leaf photo and return disease classification with explanations.",
+        "operationId": "disease_predict_api_v1_disease_predict_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_disease_predict_api_v1_disease_predict_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiseasePredictResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Image exceeds maximum upload size"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "503": {
+            "description": "Disease model not loaded"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/disease/classes": {
+      "get": {
+        "tags": [
+          "disease"
+        ],
+        "summary": "List all supported disease classes",
+        "description": "Return the full 38-class PlantVillage taxonomy.",
+        "operationId": "disease_classes_api_v1_disease_classes_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiseaseClassesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yield/predict": {
+      "post": {
+        "tags": [
+          "yield"
+        ],
+        "summary": "Predict crop yield for a location and season",
+        "description": "Accept crop, location and season parameters; return yield prediction with risk.",
+        "operationId": "yield_predict_api_v1_yield_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/YieldPredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YieldPredictResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "503": {
+            "description": "Yield model not loaded"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/yield/options": {
+      "get": {
+        "tags": [
+          "yield"
+        ],
+        "summary": "List supported districts, crops, and defaults",
+        "description": "Return the full list of supported Punjab districts and crop types.",
+        "operationId": "yield_options_api_v1_yield_options_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YieldOptionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/weather": {
+      "get": {
+        "tags": [
+          "weather"
+        ],
+        "summary": "Fetch aggregated weather data for a location and date range",
+        "description": "Fetch daily weather from Open-Meteo and return season-level aggregates.",
+        "operationId": "get_weather_api_v1_weather_get",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90.0,
+              "minimum": -90.0,
+              "description": "Latitude",
+              "title": "Lat"
+            },
+            "description": "Latitude"
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180.0,
+              "minimum": -180.0,
+              "description": "Longitude",
+              "title": "Lon"
+            },
+            "description": "Longitude"
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Start date (YYYY-MM-DD)",
+              "title": "Start Date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "End date (YYYY-MM-DD)",
+              "title": "End Date"
+            },
+            "description": "End date (YYYY-MM-DD)"
+          },
+          {
+            "name": "crop",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Crop type for GDD calculation",
+              "default": "wheat",
+              "title": "Crop"
+            },
+            "description": "Crop type for GDD calculation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeatherQueryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/{bucket}/{file_path}": {
+      "get": {
+        "tags": [
+          "storage"
+        ],
+        "summary": "Serve locally stored image files",
+        "description": "Serve files from local fallback storage when Supabase is not configured.",
+        "operationId": "serve_storage_file_api_v1_storage__bucket___file_path__get",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Bucket"
+            }
+          },
+          {
+            "name": "file_path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "File not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_disease_predict_api_v1_disease_predict_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "description": "Leaf photo (JPEG/PNG, max 10 MB)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_disease_predict_api_v1_disease_predict_post"
+      },
+      "DependencyStatus": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "not_configured",
+              "not_checked",
+              "error"
+            ],
+            "title": "Status"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "status"
+        ],
+        "title": "DependencyStatus"
+      },
+      "DiseaseClassItem": {
+        "properties": {
+          "class_id": {
+            "type": "string",
+            "title": "Class Id"
+          },
+          "crop": {
+            "type": "string",
+            "title": "Crop"
+          },
+          "disease_name": {
+            "type": "string",
+            "title": "Disease Name"
+          },
+          "is_healthy": {
+            "type": "boolean",
+            "title": "Is Healthy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "class_id",
+          "crop",
+          "disease_name",
+          "is_healthy"
+        ],
+        "title": "DiseaseClassItem"
+      },
+      "DiseaseClassesResponse": {
+        "properties": {
+          "total_classes": {
+            "type": "integer",
+            "title": "Total Classes"
+          },
+          "classes": {
+            "items": {
+              "$ref": "#/components/schemas/DiseaseClassItem"
+            },
+            "type": "array",
+            "title": "Classes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_classes",
+          "classes"
+        ],
+        "title": "DiseaseClassesResponse"
+      },
+      "DiseaseHistoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "image_url": {
+            "type": "string",
+            "title": "Image Url"
+          },
+          "overlay_url": {
+            "type": "string",
+            "title": "Overlay Url"
+          },
+          "crop": {
+            "type": "string",
+            "title": "Crop"
+          },
+          "disease_class": {
+            "type": "string",
+            "title": "Disease Class"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "is_healthy": {
+            "type": "boolean",
+            "title": "Is Healthy"
+          },
+          "severity_band": {
+            "type": "string",
+            "title": "Severity Band"
+          },
+          "severity_ratio_pct": {
+            "type": "number",
+            "title": "Severity Ratio Pct"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "image_url",
+          "overlay_url",
+          "crop",
+          "disease_class",
+          "confidence",
+          "is_healthy",
+          "severity_band",
+          "severity_ratio_pct",
+          "created_at"
+        ],
+        "title": "DiseaseHistoryItem",
+        "description": "Item in disease scan history."
+      },
+      "DiseasePredictResponse": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "uncertain",
+              "not_a_leaf"
+            ],
+            "title": "Status"
+          },
+          "prediction": {
+            "$ref": "#/components/schemas/PredictionDetails"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/SeverityDetails"
+          },
+          "explanation": {
+            "$ref": "#/components/schemas/ExplanationDetails"
+          },
+          "recommendations": {
+            "$ref": "#/components/schemas/RecommendationsDetails"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelVersionInfo"
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id",
+          "status",
+          "prediction",
+          "severity",
+          "explanation",
+          "recommendations",
+          "model",
+          "latency_ms"
+        ],
+        "title": "DiseasePredictResponse"
+      },
+      "DistrictOption": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "title": "Lon"
+          },
+          "zone": {
+            "type": "string",
+            "title": "Zone"
+          },
+          "is_barani": {
+            "type": "boolean",
+            "title": "Is Barani"
+          },
+          "supported_crops": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supported Crops"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "lat",
+          "lon",
+          "zone",
+          "is_barani",
+          "supported_crops"
+        ],
+        "title": "DistrictOption"
+      },
+      "ExplanationDetails": {
+        "properties": {
+          "method": {
+            "type": "string",
+            "const": "grad-cam",
+            "title": "Method",
+            "default": "grad-cam"
+          },
+          "overlay_url": {
+            "type": "string",
+            "title": "Overlay Url"
+          },
+          "original_url": {
+            "type": "string",
+            "title": "Original Url"
+          },
+          "quality_warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Quality Warnings"
+          },
+          "leaf_focus_fraction": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leaf Focus Fraction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "overlay_url",
+          "original_url"
+        ],
+        "title": "ExplanationDetails"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status",
+            "default": "ok"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "env": {
+            "type": "string",
+            "title": "Env"
+          },
+          "uptime_s": {
+            "type": "number",
+            "title": "Uptime S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "service",
+          "version",
+          "env",
+          "uptime_s"
+        ],
+        "title": "HealthResponse"
+      },
+      "HistoryStatsResponse": {
+        "properties": {
+          "total_disease_scans": {
+            "type": "integer",
+            "title": "Total Disease Scans"
+          },
+          "healthy_count": {
+            "type": "integer",
+            "title": "Healthy Count"
+          },
+          "diseased_count": {
+            "type": "integer",
+            "title": "Diseased Count"
+          },
+          "total_yield_forecasts": {
+            "type": "integer",
+            "title": "Total Yield Forecasts"
+          },
+          "avg_predicted_yield_tha": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Predicted Yield Tha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_disease_scans",
+          "healthy_count",
+          "diseased_count",
+          "total_yield_forecasts"
+        ],
+        "title": "HistoryStatsResponse",
+        "description": "Aggregated scan & yield statistics for user's dashboard."
+      },
+      "LocationInput": {
+        "properties": {
+          "lat": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Lon"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "region": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "title": "LocationInput"
+      },
+      "ModelInfo": {
+        "properties": {
+          "pipeline": {
+            "type": "string",
+            "enum": [
+              "disease",
+              "yield"
+            ],
+            "title": "Pipeline"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pipeline",
+          "name",
+          "version"
+        ],
+        "title": "ModelInfo"
+      },
+      "ModelMetaInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "version"
+        ],
+        "title": "ModelMetaInfo"
+      },
+      "ModelVersionInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "version"
+        ],
+        "title": "ModelVersionInfo"
+      },
+      "ModelsResponse": {
+        "properties": {
+          "registry": {
+            "type": "string",
+            "enum": [
+              "configured",
+              "unconfigured"
+            ],
+            "title": "Registry"
+          },
+          "models": {
+            "items": {
+              "$ref": "#/components/schemas/ModelInfo"
+            },
+            "type": "array",
+            "title": "Models"
+          }
+        },
+        "type": "object",
+        "required": [
+          "registry"
+        ],
+        "title": "ModelsResponse"
+      },
+      "PasswordChange": {
+        "properties": {
+          "old_password": {
+            "type": "string",
+            "title": "Old Password"
+          },
+          "new_password": {
+            "type": "string",
+            "minLength": 6,
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "old_password",
+          "new_password"
+        ],
+        "title": "PasswordChange",
+        "description": "Password change request."
+      },
+      "PredictionDetails": {
+        "properties": {
+          "class_id": {
+            "type": "string",
+            "title": "Class Id"
+          },
+          "crop": {
+            "type": "string",
+            "title": "Crop"
+          },
+          "disease": {
+            "type": "string",
+            "title": "Disease"
+          },
+          "is_healthy": {
+            "type": "boolean",
+            "title": "Is Healthy"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "top_k": {
+            "items": {
+              "$ref": "#/components/schemas/TopKPrediction"
+            },
+            "type": "array",
+            "title": "Top K"
+          }
+        },
+        "type": "object",
+        "required": [
+          "class_id",
+          "crop",
+          "disease",
+          "is_healthy",
+          "confidence"
+        ],
+        "title": "PredictionDetails"
+      },
+      "PredictionInterval": {
+        "properties": {
+          "lower": {
+            "type": "number",
+            "title": "Lower"
+          },
+          "upper": {
+            "type": "number",
+            "title": "Upper"
+          },
+          "level": {
+            "type": "number",
+            "title": "Level",
+            "default": 0.8
+          }
+        },
+        "type": "object",
+        "required": [
+          "lower",
+          "upper"
+        ],
+        "title": "PredictionInterval"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "degraded",
+              "not_ready"
+            ],
+            "title": "Status"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "dependencies": {
+            "items": {
+              "$ref": "#/components/schemas/DependencyStatus"
+            },
+            "type": "array",
+            "title": "Dependencies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "dependencies"
+        ],
+        "title": "ReadinessResponse"
+      },
+      "RecommendationAction": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cultural",
+              "chemical",
+              "biological",
+              "prevention"
+            ],
+            "title": "Type"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text"
+        ],
+        "title": "RecommendationAction"
+      },
+      "RecommendationsDetails": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationAction"
+            },
+            "type": "array",
+            "title": "Actions"
+          },
+          "prevention": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Prevention"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceReference"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "Decision support only. Consult a local agronomist."
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary"
+        ],
+        "title": "RecommendationsDetails"
+      },
+      "RiskDetails": {
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Level"
+          },
+          "baseline_yield": {
+            "type": "number",
+            "title": "Baseline Yield"
+          },
+          "ratio_to_baseline": {
+            "type": "number",
+            "title": "Ratio To Baseline"
+          },
+          "rationale": {
+            "type": "string",
+            "title": "Rationale"
+          },
+          "advisories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Advisories"
+          }
+        },
+        "type": "object",
+        "required": [
+          "level",
+          "baseline_yield",
+          "ratio_to_baseline",
+          "rationale"
+        ],
+        "title": "RiskDetails"
+      },
+      "SHAPContribution": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "title": "Feature"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          },
+          "shap": {
+            "type": "number",
+            "title": "Shap"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "increase",
+              "decrease",
+              "neutral"
+            ],
+            "title": "Direction"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature",
+          "value",
+          "shap",
+          "direction",
+          "text"
+        ],
+        "title": "SHAPContribution"
+      },
+      "SHAPExplanationDetails": {
+        "properties": {
+          "method": {
+            "type": "string",
+            "const": "shap",
+            "title": "Method",
+            "default": "shap"
+          },
+          "base_value": {
+            "type": "number",
+            "title": "Base Value"
+          },
+          "contributions": {
+            "items": {
+              "$ref": "#/components/schemas/SHAPContribution"
+            },
+            "type": "array",
+            "title": "Contributions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base_value"
+        ],
+        "title": "SHAPExplanationDetails"
+      },
+      "SeasonInput": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "maximum": 2050.0,
+            "minimum": 2000.0,
+            "title": "Year"
+          },
+          "sowing_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sowing Date"
+          },
+          "harvest_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harvest Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year"
+        ],
+        "title": "SeasonInput"
+      },
+      "SeverityDetails": {
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "moderate",
+              "severe",
+              "unknown"
+            ],
+            "title": "Level"
+          },
+          "ratio": {
+            "type": "number",
+            "title": "Ratio"
+          },
+          "method": {
+            "type": "string",
+            "title": "Method",
+            "default": "lesion_area_ratio"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "Estimated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "level",
+          "ratio"
+        ],
+        "title": "SeverityDetails"
+      },
+      "SoilInput": {
+        "properties": {
+          "ph": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 11.0,
+                "minimum": 3.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ph"
+          },
+          "organic_carbon": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 10.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organic Carbon"
+          },
+          "texture": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Texture"
+          }
+        },
+        "type": "object",
+        "title": "SoilInput"
+      },
+      "SourceReference": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "url"
+        ],
+        "title": "SourceReference"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "expires_in",
+          "user"
+        ],
+        "title": "TokenResponse",
+        "description": "Access token envelope."
+      },
+      "TopKPrediction": {
+        "properties": {
+          "class_id": {
+            "type": "string",
+            "title": "Class Id"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "class_id",
+          "confidence"
+        ],
+        "title": "TopKPrediction"
+      },
+      "UserLogin": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "UserLogin",
+        "description": "Login request payload."
+      },
+      "UserRegister": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "title": "Password",
+            "description": "Password must be at least 6 characters"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone_number": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Number"
+          },
+          "role": {
+            "type": "string",
+            "pattern": "^(farmer|agronomist|researcher)$",
+            "title": "Role",
+            "default": "farmer"
+          },
+          "preferred_language": {
+            "type": "string",
+            "maxLength": 10,
+            "title": "Preferred Language",
+            "default": "en"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "UserRegister",
+        "description": "Registration request payload."
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Number"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "preferred_language": {
+            "type": "string",
+            "title": "Preferred Language"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "role",
+          "preferred_language",
+          "is_active",
+          "created_at"
+        ],
+        "title": "UserResponse",
+        "description": "Public user profile representation."
+      },
+      "UserUpdate": {
+        "properties": {
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "phone_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone Number"
+          },
+          "preferred_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferred Language"
+          }
+        },
+        "type": "object",
+        "title": "UserUpdate",
+        "description": "Profile update payload."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WeatherQueryResponse": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "title": "Lon"
+          },
+          "start_date": {
+            "type": "string",
+            "title": "Start Date"
+          },
+          "end_date": {
+            "type": "string",
+            "title": "End Date"
+          },
+          "total_rain_mm": {
+            "type": "number",
+            "title": "Total Rain Mm"
+          },
+          "rainy_days_count": {
+            "type": "integer",
+            "title": "Rainy Days Count"
+          },
+          "mean_temp_c": {
+            "type": "number",
+            "title": "Mean Temp C"
+          },
+          "max_temp_c": {
+            "type": "number",
+            "title": "Max Temp C"
+          },
+          "min_temp_c": {
+            "type": "number",
+            "title": "Min Temp C"
+          },
+          "gdd_c": {
+            "type": "number",
+            "title": "Gdd C"
+          },
+          "heat_stress_days": {
+            "type": "integer",
+            "title": "Heat Stress Days"
+          },
+          "water_balance_mm": {
+            "type": "number",
+            "title": "Water Balance Mm"
+          },
+          "daily_records_count": {
+            "type": "integer",
+            "title": "Daily Records Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "lat",
+          "lon",
+          "start_date",
+          "end_date",
+          "total_rain_mm",
+          "rainy_days_count",
+          "mean_temp_c",
+          "max_temp_c",
+          "min_temp_c",
+          "gdd_c",
+          "heat_stress_days",
+          "water_balance_mm",
+          "daily_records_count"
+        ],
+        "title": "WeatherQueryResponse"
+      },
+      "WeatherSummaryDetails": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "open-meteo"
+          },
+          "temp_mean": {
+            "type": "number",
+            "title": "Temp Mean"
+          },
+          "rain_total": {
+            "type": "number",
+            "title": "Rain Total"
+          },
+          "heat_stress_days": {
+            "type": "integer",
+            "title": "Heat Stress Days",
+            "default": 0
+          },
+          "water_balance": {
+            "type": "number",
+            "title": "Water Balance",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "temp_mean",
+          "rain_total"
+        ],
+        "title": "WeatherSummaryDetails"
+      },
+      "YieldHistoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "crop": {
+            "type": "string",
+            "title": "Crop"
+          },
+          "district": {
+            "type": "string",
+            "title": "District"
+          },
+          "season_year": {
+            "type": "integer",
+            "title": "Season Year"
+          },
+          "area_ha": {
+            "type": "number",
+            "title": "Area Ha"
+          },
+          "predicted_yield_tha": {
+            "type": "number",
+            "title": "Predicted Yield Tha"
+          },
+          "interval_lower": {
+            "type": "number",
+            "title": "Interval Lower"
+          },
+          "interval_upper": {
+            "type": "number",
+            "title": "Interval Upper"
+          },
+          "risk_level": {
+            "type": "string",
+            "title": "Risk Level"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "crop",
+          "district",
+          "season_year",
+          "area_ha",
+          "predicted_yield_tha",
+          "interval_lower",
+          "interval_upper",
+          "risk_level",
+          "created_at"
+        ],
+        "title": "YieldHistoryItem",
+        "description": "Item in yield prediction history."
+      },
+      "YieldOptionsResponse": {
+        "properties": {
+          "districts": {
+            "items": {
+              "$ref": "#/components/schemas/DistrictOption"
+            },
+            "type": "array",
+            "title": "Districts"
+          },
+          "supported_crops": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supported Crops"
+          },
+          "default_year": {
+            "type": "integer",
+            "title": "Default Year"
+          },
+          "target_unit": {
+            "type": "string",
+            "title": "Target Unit",
+            "default": "t/ha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "districts",
+          "supported_crops",
+          "default_year"
+        ],
+        "title": "YieldOptionsResponse"
+      },
+      "YieldPredictRequest": {
+        "properties": {
+          "crop": {
+            "type": "string",
+            "title": "Crop",
+            "description": "'wheat' or 'maize'"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LocationInput"
+          },
+          "season": {
+            "$ref": "#/components/schemas/SeasonInput"
+          },
+          "area_ha": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Area Ha",
+            "description": "Farm or district area in hectares"
+          },
+          "soil": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SoilInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "weather_override": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Override"
+          }
+        },
+        "type": "object",
+        "required": [
+          "crop",
+          "location",
+          "season",
+          "area_ha"
+        ],
+        "title": "YieldPredictRequest"
+      },
+      "YieldPredictResponse": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded",
+              "out_of_bounds"
+            ],
+            "title": "Status"
+          },
+          "prediction": {
+            "$ref": "#/components/schemas/YieldPredictionDetails"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/RiskDetails"
+          },
+          "explanation": {
+            "$ref": "#/components/schemas/SHAPExplanationDetails"
+          },
+          "weather_summary": {
+            "$ref": "#/components/schemas/WeatherSummaryDetails"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelMetaInfo"
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id",
+          "status",
+          "prediction",
+          "risk",
+          "explanation",
+          "weather_summary",
+          "model",
+          "latency_ms"
+        ],
+        "title": "YieldPredictResponse"
+      },
+      "YieldPredictionDetails": {
+        "properties": {
+          "yield_value": {
+            "type": "number",
+            "title": "Yield Value"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "default": "t/ha"
+          },
+          "interval": {
+            "$ref": "#/components/schemas/PredictionInterval"
+          }
+        },
+        "type": "object",
+        "required": [
+          "yield_value",
+          "interval"
+        ],
+        "title": "YieldPredictionDetails"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      }
+    }
+  }
+}

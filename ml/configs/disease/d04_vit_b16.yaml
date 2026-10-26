@@ -1,0 +1,19 @@
+# Experiment D-04: Vision Transformer ViT-B/16 (Transformer comparison)
+exp_id: "D-04"
+name_suffix: "vit-b16"
+architecture: "vit_b16"
+pretrained: true
+freeze_backbone: false
+
+# Data & Augmentation
+img_size: 224
+batch_size: 16
+aug_policy: "basic"
+seed: 42
+
+# Optimization (lower learning rate for ViT)
+epochs: 10
+lr: 0.00005
+optimizer: "adamw"
+weight_decay: 0.0001
+label_smoothing: 0.0

@@ -1,0 +1,18 @@
+{
+  "model_name": "AgriSense EfficientNet-B0 Disease Classifier",
+  "version": "0.1.0",
+  "date": "2026-10-25",
+  "architecture": "EfficientNet-B0",
+  "num_classes": 38,
+  "metrics": {
+    "test_accuracy": 0.9841,
+    "macro_f1": 0.982,
+    "ece": 0.0214,
+    "cpu_latency_p95_ms": 135
+  },
+  "calibration": {
+    "method": "Temperature Scaling",
+    "temperature": 1.183
+  },
+  "decision_threshold": 0.6
+}

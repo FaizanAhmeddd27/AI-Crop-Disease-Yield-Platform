@@ -1,0 +1,22 @@
+{
+  "model_name": "AgriSense Punjab Crop Yield Predictor",
+  "version": "0.1.0",
+  "date": "2026-10-25",
+  "primary_model": "XGBoost Regressor (300 trees, depth 4)",
+  "uncertainty_model": "Quantile Gradient Boosting Ensemble (p10, p50, p90) + walk-forward conformal recalibration",
+  "crops": [
+    "wheat",
+    "maize"
+  ],
+  "geography": "Punjab, Pakistan (36 consolidated districts)",
+  "test_metrics": {
+    "mae": 0.3334,
+    "rmse": 0.6004,
+    "r2": 0.8446,
+    "mape_pct": 7.32
+  },
+  "test_metrics_source": "exported production weights (train-only fit, 300 trees, no early stopping)",
+  "coverage_80_pct": 77.78,
+  "coverage_method": "walk-forward conformal recalibrated 80% interval (offset in calibration.json)",
+  "target_unit": "t/ha"
+}

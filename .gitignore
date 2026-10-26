@@ -1,0 +1,51 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.local.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+**/.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Local runtime and generated data
+backend/storage/
+backend/.local/
+ml/artifacts/runs/
+ml/artifacts/checkpoints/
+ml/data/
+*.sqlite
+*.sqlite3
+*.db
+
+# Test and audit output
+test-results/
+playwright-report/
+lighthouse-*.json
+
+# Editors and OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+.idea/
+.DS_Store
+Thumbs.db

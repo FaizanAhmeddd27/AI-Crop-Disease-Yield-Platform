@@ -1,0 +1,23 @@
+{
+  "engine_version": "v1.0.0",
+  "low_risk_ratio_threshold": 0.95,
+  "medium_risk_ratio_threshold": 0.8,
+  "lower_bound_pessimism_weight": 0.25,
+  "risk_levels": [
+    "LOW",
+    "MEDIUM",
+    "HIGH"
+  ],
+  "advisory_rules": {
+    "wheat": {
+      "high_risk": "Terminal heat stress or extreme deficit detected. Prioritize afternoon cooling irrigation and zinc/potassium foliar spray.",
+      "medium_risk": "Moderate deficit. Optimize final canal turn 10-14 days prior to harvest.",
+      "low_risk": "Conditions favorable. Standard nitrogen/phosphorus management."
+    },
+    "maize": {
+      "high_risk": "Severe moisture stress or waterlogging. Check field drainage and irrigate silking canopy.",
+      "medium_risk": "Moderate stress. Maintain consistent soil moisture during grain filling.",
+      "low_risk": "Optimal conditions. Scout for Fall Armyworm and maintain fertilizer schedule."
+    }
+  }
+}

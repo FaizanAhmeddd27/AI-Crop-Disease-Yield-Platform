@@ -1,0 +1,245 @@
+{
+  "feature_schema_version": "v1.1.0",
+  "target": "yield_tha",
+  "target_unit": "t/ha",
+  "keys": [
+    "crop",
+    "season_year",
+    "district"
+  ],
+  "categorical": [
+    "crop",
+    "district",
+    "district_zone"
+  ],
+  "numerical": [
+    "soil_ph",
+    "soil_soc_g_kg",
+    "soil_nitrogen_g_kg",
+    "soil_clay_pct",
+    "soil_sand_pct",
+    "soil_silt_pct",
+    "soil_cec_cmol_kg",
+    "soil_bulk_density_g_cm3",
+    "soil_wv10_pct",
+    "soil_wv33_pct",
+    "soil_wv1500_pct",
+    "soil_awc_pct",
+    "w_rain_total_mm",
+    "w_rainy_days",
+    "w_heavy_rain_days",
+    "w_dry_days",
+    "w_temp_mean_c",
+    "w_temp_max_c",
+    "w_temp_min_c",
+    "w_gdd_c",
+    "w_heat_stress_days",
+    "w_grain_rain_mm",
+    "w_grain_gdd_c",
+    "w_water_balance_mm",
+    "w_humidity_mean_pct",
+    "w_solar_mj_m2",
+    "w_wind_max_kmh",
+    "w_days_observed",
+    "w_completeness",
+    "yield_lag1_tha",
+    "yield_roll3_tha",
+    "yield_trend_tha_per_year",
+    "area_000ha",
+    "season_index",
+    "is_barani"
+  ],
+  "required": [
+    "crop",
+    "district",
+    "district_zone",
+    "area_000ha",
+    "season_index",
+    "is_barani",
+    "soil_ph",
+    "soil_soc_g_kg",
+    "soil_nitrogen_g_kg",
+    "soil_clay_pct",
+    "soil_sand_pct",
+    "soil_silt_pct",
+    "soil_cec_cmol_kg",
+    "soil_bulk_density_g_cm3",
+    "soil_wv10_pct",
+    "soil_wv33_pct",
+    "soil_wv1500_pct",
+    "soil_awc_pct",
+    "w_rain_total_mm",
+    "w_rainy_days",
+    "w_heavy_rain_days",
+    "w_dry_days",
+    "w_temp_mean_c",
+    "w_temp_max_c",
+    "w_temp_min_c",
+    "w_gdd_c",
+    "w_heat_stress_days",
+    "w_grain_rain_mm",
+    "w_grain_gdd_c",
+    "w_water_balance_mm",
+    "w_humidity_mean_pct",
+    "w_solar_mj_m2",
+    "w_wind_max_kmh",
+    "w_days_observed",
+    "w_completeness"
+  ],
+  "history": [
+    "yield_lag1_tha",
+    "yield_roll3_tha",
+    "yield_trend_tha_per_year"
+  ],
+  "excluded": {
+    "production_000t": "numerator of the target; leakage",
+    "district_lat": "constant within district; absorbed by district category",
+    "district_lon": "constant within district; absorbed by district category"
+  },
+  "bounds": {
+    "yield_tha": [
+      0.05,
+      20.0
+    ],
+    "area_000ha": [
+      0.0,
+      20000.0
+    ],
+    "season_index": [
+      0,
+      60
+    ],
+    "is_barani": [
+      0,
+      1
+    ],
+    "soil_ph": [
+      3.0,
+      10.5
+    ],
+    "soil_soc_g_kg": [
+      0.0,
+      120.0
+    ],
+    "soil_nitrogen_g_kg": [
+      0.0,
+      12.0
+    ],
+    "soil_clay_pct": [
+      0.0,
+      90.0
+    ],
+    "soil_sand_pct": [
+      0.0,
+      100.0
+    ],
+    "soil_silt_pct": [
+      0.0,
+      100.0
+    ],
+    "soil_cec_cmol_kg": [
+      0.0,
+      120.0
+    ],
+    "soil_bulk_density_g_cm3": [
+      0.3,
+      2.2
+    ],
+    "soil_wv10_pct": [
+      0.0,
+      70.0
+    ],
+    "soil_wv33_pct": [
+      0.0,
+      70.0
+    ],
+    "soil_wv1500_pct": [
+      0.0,
+      50.0
+    ],
+    "soil_awc_pct": [
+      0.0,
+      40.0
+    ],
+    "w_rain_total_mm": [
+      0.0,
+      5000.0
+    ],
+    "w_rainy_days": [
+      0,
+      400
+    ],
+    "w_heavy_rain_days": [
+      0,
+      200
+    ],
+    "w_dry_days": [
+      0,
+      400
+    ],
+    "w_temp_mean_c": [
+      -15.0,
+      45.0
+    ],
+    "w_temp_max_c": [
+      -5.0,
+      55.0
+    ],
+    "w_temp_min_c": [
+      -25.0,
+      40.0
+    ],
+    "w_gdd_c": [
+      0.0,
+      8000.0
+    ],
+    "w_heat_stress_days": [
+      0,
+      400
+    ],
+    "w_grain_rain_mm": [
+      0.0,
+      2000.0
+    ],
+    "w_grain_gdd_c": [
+      0.0,
+      3000.0
+    ],
+    "w_water_balance_mm": [
+      -3000.0,
+      5000.0
+    ],
+    "w_humidity_mean_pct": [
+      0.0,
+      100.0
+    ],
+    "w_solar_mj_m2": [
+      0.0,
+      40.0
+    ],
+    "w_wind_max_kmh": [
+      0.0,
+      250.0
+    ],
+    "w_days_observed": [
+      0,
+      400
+    ],
+    "w_completeness": [
+      0.0,
+      1.0
+    ],
+    "yield_lag1_tha": [
+      0.0,
+      20.0
+    ],
+    "yield_roll3_tha": [
+      0.0,
+      20.0
+    ],
+    "yield_trend_tha_per_year": [
+      -10.0,
+      10.0
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+# Experiment Y-00: Naive Baselines (Prior Year & 3-Year Rolling Mean)
+exp_id: "Y-00-naive"
+model_name: "naive_last_year"
+features:
+  use_history: true
+  use_weather: false
+  use_soil: false
+split:
+  train_end_year: 2021
+  val_year: 2022
+  test_start_year: 2023

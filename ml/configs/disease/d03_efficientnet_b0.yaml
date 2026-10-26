@@ -1,0 +1,19 @@
+# Experiment D-03: EfficientNet-B0 (Compact candidate for CPU serving)
+exp_id: "D-03"
+name_suffix: "effnetb0-basic"
+architecture: "efficientnet_b0"
+pretrained: true
+freeze_backbone: false
+
+# Data & Augmentation
+img_size: 224
+batch_size: 32
+aug_policy: "basic"
+seed: 42
+
+# Optimization
+epochs: 10
+lr: 0.0003
+optimizer: "adamw"
+weight_decay: 0.0001
+label_smoothing: 0.0

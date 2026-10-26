@@ -1,0 +1,1616 @@
+{
+  "Apple___Apple_scab": {
+    "class_id": "Apple___Apple_scab",
+    "crop": "Apple",
+    "disease_name": "Apple scab",
+    "is_healthy": false,
+    "summary": "Apple exhibiting symptoms characteristic of Apple scab. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and apple scab lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Apple___Black_rot": {
+    "class_id": "Apple___Black_rot",
+    "crop": "Apple",
+    "disease_name": "Black rot",
+    "is_healthy": false,
+    "summary": "Apple exhibiting symptoms characteristic of Black rot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and black rot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Apple___Cedar_apple_rust": {
+    "class_id": "Apple___Cedar_apple_rust",
+    "crop": "Apple",
+    "disease_name": "Cedar apple rust",
+    "is_healthy": false,
+    "summary": "Apple exhibiting symptoms characteristic of Cedar apple rust. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and cedar apple rust lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Apple___healthy": {
+    "class_id": "Apple___healthy",
+    "crop": "Apple",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Apple foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Blueberry___healthy": {
+    "class_id": "Blueberry___healthy",
+    "crop": "Blueberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Blueberry foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Cherry_(including_sour)___Powdery_mildew": {
+    "class_id": "Cherry_(including_sour)___Powdery_mildew",
+    "crop": "Cherry (including sour)",
+    "disease_name": "Powdery mildew",
+    "is_healthy": false,
+    "summary": "Cherry (including sour) exhibiting symptoms characteristic of Powdery mildew. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and powdery mildew lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Cherry_(including_sour)___healthy": {
+    "class_id": "Cherry_(including_sour)___healthy",
+    "crop": "Cherry (including sour)",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Cherry (including sour) foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+    "class_id": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+    "crop": "Corn (maize)",
+    "disease_name": "Cercospora leaf spot Gray leaf spot",
+    "is_healthy": false,
+    "summary": "Corn (maize) exhibiting symptoms characteristic of Cercospora leaf spot Gray leaf spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and cercospora leaf spot gray leaf spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Corn_(maize)___Common_rust_": {
+    "class_id": "Corn_(maize)___Common_rust_",
+    "crop": "Corn (maize)",
+    "disease_name": "Common rust ",
+    "is_healthy": false,
+    "summary": "Corn (maize) exhibiting symptoms characteristic of Common rust . Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and common rust  lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Corn_(maize)___Northern_Leaf_Blight": {
+    "class_id": "Corn_(maize)___Northern_Leaf_Blight",
+    "crop": "Corn (maize)",
+    "disease_name": "Northern Leaf Blight",
+    "is_healthy": false,
+    "summary": "Corn (maize) exhibiting symptoms characteristic of Northern Leaf Blight. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and northern leaf blight lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Corn_(maize)___healthy": {
+    "class_id": "Corn_(maize)___healthy",
+    "crop": "Corn (maize)",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Corn (maize) foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Grape___Black_rot": {
+    "class_id": "Grape___Black_rot",
+    "crop": "Grape",
+    "disease_name": "Black rot",
+    "is_healthy": false,
+    "summary": "Grape exhibiting symptoms characteristic of Black rot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and black rot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "class_id": "Grape___Esca_(Black_Measles)",
+    "crop": "Grape",
+    "disease_name": "Esca (Black Measles)",
+    "is_healthy": false,
+    "summary": "Grape exhibiting symptoms characteristic of Esca (Black Measles). Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and esca (black measles) lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+    "class_id": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "crop": "Grape",
+    "disease_name": "Leaf blight (Isariopsis Leaf Spot)",
+    "is_healthy": false,
+    "summary": "Grape exhibiting symptoms characteristic of Leaf blight (Isariopsis Leaf Spot). Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and leaf blight (isariopsis leaf spot) lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Grape___healthy": {
+    "class_id": "Grape___healthy",
+    "crop": "Grape",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Grape foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Orange___Haunglongbing_(Citrus_greening)": {
+    "class_id": "Orange___Haunglongbing_(Citrus_greening)",
+    "crop": "Orange",
+    "disease_name": "Haunglongbing (Citrus greening)",
+    "is_healthy": false,
+    "summary": "Orange exhibiting symptoms characteristic of Haunglongbing (Citrus greening). Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and haunglongbing (citrus greening) lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Peach___Bacterial_spot": {
+    "class_id": "Peach___Bacterial_spot",
+    "crop": "Peach",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "summary": "Peach exhibiting symptoms characteristic of Bacterial spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and bacterial spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Peach___healthy": {
+    "class_id": "Peach___healthy",
+    "crop": "Peach",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Peach foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Pepper,_bell___Bacterial_spot": {
+    "class_id": "Pepper,_bell___Bacterial_spot",
+    "crop": "Pepper, bell",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "summary": "Pepper, bell exhibiting symptoms characteristic of Bacterial spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and bacterial spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Pepper,_bell___healthy": {
+    "class_id": "Pepper,_bell___healthy",
+    "crop": "Pepper, bell",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Pepper, bell foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Potato___Early_blight": {
+    "class_id": "Potato___Early_blight",
+    "crop": "Potato",
+    "disease_name": "Early blight",
+    "is_healthy": false,
+    "summary": "Potato exhibiting symptoms characteristic of Early blight. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and early blight lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Potato___Late_blight": {
+    "class_id": "Potato___Late_blight",
+    "crop": "Potato",
+    "disease_name": "Late blight",
+    "is_healthy": false,
+    "summary": "Potato exhibiting symptoms characteristic of Late blight. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and late blight lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Potato___healthy": {
+    "class_id": "Potato___healthy",
+    "crop": "Potato",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Potato foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Raspberry___healthy": {
+    "class_id": "Raspberry___healthy",
+    "crop": "Raspberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Raspberry foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Soybean___healthy": {
+    "class_id": "Soybean___healthy",
+    "crop": "Soybean",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Soybean foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Squash___Powdery_mildew": {
+    "class_id": "Squash___Powdery_mildew",
+    "crop": "Squash",
+    "disease_name": "Powdery mildew",
+    "is_healthy": false,
+    "summary": "Squash exhibiting symptoms characteristic of Powdery mildew. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and powdery mildew lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Strawberry___Leaf_scorch": {
+    "class_id": "Strawberry___Leaf_scorch",
+    "crop": "Strawberry",
+    "disease_name": "Leaf scorch",
+    "is_healthy": false,
+    "summary": "Strawberry exhibiting symptoms characteristic of Leaf scorch. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and leaf scorch lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Strawberry___healthy": {
+    "class_id": "Strawberry___healthy",
+    "crop": "Strawberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Strawberry foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Bacterial_spot": {
+    "class_id": "Tomato___Bacterial_spot",
+    "crop": "Tomato",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Bacterial spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and bacterial spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Early_blight": {
+    "class_id": "Tomato___Early_blight",
+    "crop": "Tomato",
+    "disease_name": "Early blight",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Early blight. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and early blight lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Late_blight": {
+    "class_id": "Tomato___Late_blight",
+    "crop": "Tomato",
+    "disease_name": "Late blight",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Late blight. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and late blight lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Leaf_Mold": {
+    "class_id": "Tomato___Leaf_Mold",
+    "crop": "Tomato",
+    "disease_name": "Leaf Mold",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Leaf Mold. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and leaf mold lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "class_id": "Tomato___Septoria_leaf_spot",
+    "crop": "Tomato",
+    "disease_name": "Septoria leaf spot",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Septoria leaf spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and septoria leaf spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "class_id": "Tomato___Spider_mites Two-spotted_spider_mite",
+    "crop": "Tomato",
+    "disease_name": "Spider mites Two-spotted spider mite",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Spider mites Two-spotted spider mite. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and spider mites two-spotted spider mite lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Target_Spot": {
+    "class_id": "Tomato___Target_Spot",
+    "crop": "Tomato",
+    "disease_name": "Target Spot",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Target Spot. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and target spot lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "class_id": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "crop": "Tomato",
+    "disease_name": "Tomato Yellow Leaf Curl Virus",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Tomato Yellow Leaf Curl Virus. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and tomato yellow leaf curl virus lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "class_id": "Tomato___Tomato_mosaic_virus",
+    "crop": "Tomato",
+    "disease_name": "Tomato mosaic virus",
+    "is_healthy": false,
+    "summary": "Tomato exhibiting symptoms characteristic of Tomato mosaic virus. Timely cultural sanitation and targeted management are recommended.",
+    "symptoms": [
+      "Visible foliar discoloration and tomato mosaic virus lesions on leaf surface.",
+      "Localized chlorosis surrounding infection sites.",
+      "Potential premature leaf drop if untreated."
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Prune and destroy severely infected leaves; sanitize pruning shears with 70% alcohol."
+      },
+      {
+        "type": "cultural",
+        "text": "Avoid overhead sprinkler irrigation; irrigate at soil base to reduce leaf wetness duration."
+      },
+      {
+        "type": "chemical",
+        "text": "Apply recommended protectant fungicide or copper-based bactericide per local extension label."
+      },
+      {
+        "type": "biological",
+        "text": "Consider bio-control agents such as Bacillus subtilis or Trichoderma harzianum."
+      }
+    ],
+    "prevention": [
+      "Practice crop rotation with non-host species for 2-3 years.",
+      "Ensure adequate plant spacing for canopy airflow."
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  },
+  "Tomato___healthy": {
+    "class_id": "Tomato___healthy",
+    "crop": "Tomato",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "summary": "Tomato foliage exhibits normal, vigorous vegetative development with no visible symptoms of biotic or abiotic pathology.",
+    "symptoms": [
+      "Clean, uniform green lamina",
+      "No necrotic lesions or chlorotic margins",
+      "Healthy vascular turgor"
+    ],
+    "actions": [
+      {
+        "type": "cultural",
+        "text": "Maintain scheduled irrigation and balanced N-P-K nutrient application."
+      },
+      {
+        "type": "prevention",
+        "text": "Inspect canopy weekly for early pest vectors (aphids, whiteflies, spider mites)."
+      }
+    ],
+    "prevention": [
+      "Use certified disease-free seed stock",
+      "Ensure adequate field drainage"
+    ],
+    "sources": [
+      {
+        "title": "University of Agriculture Faisalabad / CABI Plantwise",
+        "url": "https://www.plantwise.org/"
+      },
+      {
+        "title": "Punjab Agriculture Department Advisory Service",
+        "url": "https://agripunjab.gov.pk/"
+      }
+    ],
+    "disclaimer": "Decision support only. Consult a certified local extension officer before applying chemical agrochemicals."
+  }
+}

@@ -1,0 +1,19 @@
+# Experiment D-01: Baseline CNN trained from scratch (Reference floor)
+exp_id: "D-01"
+name_suffix: "baseline-cnn"
+architecture: "baseline_cnn"
+pretrained: false
+freeze_backbone: false
+
+# Data & Augmentation
+img_size: 224
+batch_size: 64
+aug_policy: "basic"
+seed: 42
+
+# Optimization
+epochs: 10
+lr: 0.001
+optimizer: "adamw"
+weight_decay: 0.0001
+label_smoothing: 0.0

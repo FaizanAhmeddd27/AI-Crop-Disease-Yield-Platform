@@ -1,0 +1,40 @@
+{
+  "method": "walk_forward_conformal_last_epoch",
+  "target_coverage_pct": 80.0,
+  "n_nonconformity_scores": 720,
+  "pooled_offset_tha_reference": 0.0614,
+  "deployment_offset_tha": 0.5511,
+  "window_seasons": 2,
+  "per_season_conformal_level": 0.9,
+  "window_offsets_tha": {
+    "2021": 0.0972,
+    "2022": 0.5511
+  },
+  "per_year_offsets_pooled_quantile_tha": {
+    "2013": 0.0195,
+    "2014": 0.0366,
+    "2015": 0.0607,
+    "2016": 0.033,
+    "2017": 0.1213,
+    "2018": 0.1384,
+    "2019": 0.024,
+    "2020": 0.047,
+    "2021": 0.0484,
+    "2022": 0.5057
+  },
+  "test_interval_metrics": {
+    "interval_coverage_pct": 77.78,
+    "mean_interval_width_tha": 1.7685
+  },
+  "interval_strategy": "quantile ensemble [p10, p90] widened symmetrically by the max offset of the last 2 walk-forward calibration seasons, each calibrated at 1 - alpha/window (Bonferroni union bound across the deployment window)",
+  "reference_split_conformal": {
+    "method": "split_conformal",
+    "target_coverage_pct": 80.0,
+    "n_calibration_samples": 72,
+    "conformal_offset_tha": 0.5057,
+    "calibration_coverage_before_pct": 19.44,
+    "calibration_coverage_after_pct": 83.33,
+    "note": "single train/val split; under-covers after production refit on train+val"
+  },
+  "hostile_check": "walk-forward models trained strictly on seasons < target; test (2023+) never used"
+}

@@ -1,0 +1,24 @@
+# Docker build context ignore (build from repo root: docker build -f backend/Dockerfile .)
+**/.env
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+htmlcov/
+
+# Not needed inside the image
+docs/
+frontend/node_modules/
+frontend/.next/
+frontend/tsconfig.tsbuildinfo
+ml/data/
+ml/notebooks/
+ml/artifacts/runs/
+ml/.env
+backend/tests/
+backend/alembic.ini
+backend/agrisense_local.db
+backend/data/

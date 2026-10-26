@@ -1,0 +1,12 @@
+# Experiment Y-02: Random Forest Yield Regressor
+exp_id: "Y-02-random-forest"
+model_name: "random_forest"
+n_estimators: 200
+max_depth: 8
+min_samples_split: 5
+min_samples_leaf: 3
+random_state: 42
+split:
+  train_end_year: 2021
+  val_year: 2022
+  test_start_year: 2023

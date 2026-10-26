@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/*
+  Design tokens (ARCH §10, PRD §9).
+  Light mode only for the MVP: the app must be readable outdoors on a phone,
+  and a half-tested dark mode is worse than none. Dark mode is optional/stretch.
+*/
+/*
+  CropSense Minimal system (docs/DESIGN.md): flat forest/leaf editorial palette.
+  The brand-* ramp maps onto the same colours so existing screens follow the theme.
+*/
+@theme {
+  /* Semantic tokens from docs/DESIGN.md */
+  --color-forest: #064734;
+  --color-leaf: #e0ffc2;
+  --color-page: #f4ffe9;
+  --color-hairline: #c6e3ae;
+
+  --color-brand-50: #f4ffe9;
+  --color-brand-100: #e0ffc2;
+  --color-brand-200: #c6e3ae;
+  --color-brand-300: #a5cf8b;
+  --color-brand-400: #64ab6c;
+  --color-brand-500: #1b6449;
+  --color-brand-600: #064734;
+  --color-brand-700: #043a2b;
+  --color-brand-800: #032e22;
+  --color-brand-900: #022218;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4ffe9;
+  --color-border-subtle: #c6e3ae;
+
+  --color-ink: #06241b;
+  --color-ink-muted: #5e7a6e;
+
+  /* Risk and severity semantics — only on badges, never on surfaces (DESIGN guardrail). */
+  --color-risk-low: #2e9e5b;
+  --color-risk-medium: #f2b53a;
+  --color-risk-high: #d9453b;
+
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-accent: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  /* Tape marquee — crossing ribbons loop in opposite directions. */
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-marquee-rev: marquee 46s linear infinite reverse;
+  --animate-signal-rail: signal-rail 34s linear infinite;
+}
+
+@theme {
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    @keyframes signal-rail {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(calc(-50% - 6px));
+      }
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Motion guardrail: ticker stops for reduced-motion users. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-rev {
+    animation: none;
+  }
+
+  .animate-signal-rail {
+    animation: none;
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-surface-muted);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* Full-bleed strips use 100vw math; never show a horizontal scrollbar because of it. */
+  overflow-x: clip;
+}
+
+/* The document element is the scroller — clip it as well so the 100vw tapes
+   (which include the scrollbar in their width) can never scroll the page. */
+html {
+  overflow-x: clip;
+}
+
+/* Visible keyboard focus everywhere (NFR-U-003). */
+:focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 2px;
+}
+
+button:not(:disabled),
+[role="button"],
+label[for] {
+  cursor: pointer;
+}
+
+@keyframes loader-face-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, -5%);
+  }
+}
+
+.loader-face-bob {
+  animation: loader-face-bob 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-face-bob {
+    animation: none;
+  }
+}
