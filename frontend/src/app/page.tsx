@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   motion,
-  useInView,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
 } from "framer-motion";
 import type { ReactNode } from "react";
@@ -431,44 +429,34 @@ const STEPS = [
 function FieldSignals() {
   const signals = [
     {
-      value: 38,
+      value: "38",
       label: "disease classes",
       eyebrow: "01 · Vision",
       note: "The leaf classifier checks the supported crop and disease set before it gives a result.",
-      tone: "bg-leaf text-forest",
-      size: "w-[min(82vw,34rem)]",
     },
     {
-      value: 36,
+      value: "36",
       label: "Punjab districts",
       eyebrow: "02 · Reach",
       note: "Weather inputs resolve district by district from a live Open-Meteo feed.",
-      tone: "bg-[#d6efbd] text-forest",
-      size: "w-[min(70vw,24rem)]",
     },
     {
       value: "02",
       label: "supported crops",
       eyebrow: "03 · Crops",
       note: "Wheat and maize are the first production pathways in the yield model.",
-      tone: "bg-[#b8dc9c] text-forest",
-      size: "w-[min(70vw,24rem)]",
     },
     {
       value: "CAM",
       label: "heatmap evidence",
       eyebrow: "04 · Evidence",
       note: "Grad-CAM shows which part of the leaf influenced the diagnosis.",
-      tone: "bg-[#8fbd80] text-forest",
-      size: "w-[min(70vw,24rem)]",
     },
     {
       value: "SHAP",
       label: "yield drivers",
       eyebrow: "05 · Forecast",
       note: "The forecast includes the factors that pushed the estimate up or down.",
-      tone: "bg-[#6ba875] text-leaf",
-      size: "w-[min(70vw,24rem)]",
     },
   ] as const;
   const cards = [...signals, ...signals];
@@ -502,39 +490,49 @@ function FieldSignals() {
           </p>
         </div>
 
+        {/* Rail viewport: edges fade so the cut-off card reads as a ticker,
+            and the rail stays hand-scrollable when motion is reduced. */}
         <div
-          className="group mt-8 overflow-hidden"
+          className="group mt-8 overflow-x-auto motion-safe:overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,#000_48px,#000_calc(100%_-_48px),transparent)] [mask-image:linear-gradient(to_right,transparent,#000_48px,#000_calc(100%_-_48px),transparent)]"
           aria-label="Zenvy model coverage and explanation signals"
           tabIndex={0}
         >
-          <div className="flex w-max gap-3 py-2 animate-signal-rail group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
+          <div className="flex w-max gap-3 py-2 motion-safe:animate-signal-rail group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
             {cards.map((signal, index) => (
               <article
                 key={`${signal.eyebrow}-${index}`}
-                className={`flex min-h-[270px] shrink-0 flex-col justify-between rounded-[24px] p-5 shadow-[0_18px_40px_rgba(0,0,0,0.12)] transition-transform duration-300 hover:-translate-y-1 sm:min-h-[300px] sm:p-7 ${signal.size} ${signal.tone}`}
+                aria-hidden={index >= signals.length ? true : undefined}
+                className={`flex min-h-[236px] w-[min(78vw,20rem)] shrink-0 flex-col rounded-[20px] p-5 text-forest shadow-[0_18px_40px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:-translate-y-1 sm:min-h-[248px] sm:p-6 ${
+                  index % 2 === 0 ? "bg-leaf" : "bg-surface"
+                }`}
               >
                 <div className="flex items-center justify-between gap-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] opacity-65">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-forest/70">
                     {signal.eyebrow}
                   </span>
-                  <span aria-hidden="true" className="h-px w-10 bg-current opacity-35" />
+                  <span aria-hidden="true" className="h-px w-10 bg-forest/30" />
                 </div>
-                <div>
-                  <p className="font-accent text-[70px] leading-[0.78] tracking-[-0.06em] sm:text-[92px]">
+                <div className="mt-6">
+                  <p className="font-accent text-[64px] leading-[0.85] tracking-[-0.04em] sm:text-[72px]">
                     {signal.value}
                   </p>
-                  <h3 className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">
+                  <h3 className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">
                     {signal.label}
                   </h3>
-                  <p className="mt-3 max-w-[32ch] text-sm leading-[1.5] opacity-75">{signal.note}</p>
                 </div>
+                <p className="mt-auto pt-5 text-sm leading-[1.5] text-forest/80">
+                  {signal.note}
+                </p>
               </article>
             ))}
           </div>
         </div>
 
         <div className="mt-6 flex flex-col gap-3 border-t border-leaf/20 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-leaf/50">
+          <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-leaf/50 motion-safe:hidden">
+            Scroll sideways · five signals
+          </p>
+          <p className="hidden font-mono text-[10px] uppercase tracking-[0.1em] text-leaf/50 motion-safe:block">
             Auto-scroll · hover or focus to pause
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-leaf/35">
@@ -776,34 +774,410 @@ function HeroReport() {
   );
 }
 
-/* ── Explainability: a black field report on a dotted board ──────────────── */
+/* ── Under the hood: a VS Code window on the real disease pipeline ──────────────── */
+
+/** Small stroked icon wrapper — every mock icon is inline SVG, never emoji. */
+function Ico({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      {children}
+    </svg>
+  );
+}
+
+function FileGlyph({ className = "" }: { className?: string }) {
+  return (
+    <Ico className={className}>
+      <path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7l-4-4z" />
+      <path d="M14 3v4h4" />
+    </Ico>
+  );
+}
+
+/* VS Code Dark+ token colours, tuned for the frame's near-black editor. */
+const TOKEN_CLASSES = [
+  "text-[#5F8A64]", // comment
+  "text-[#CE9178]", // string
+  "text-[#569CD6]", // keyword
+  "text-[#DCDCAA]", // call
+  "text-[#4EC9B0]", // type
+  "text-[#B5CE8A]", // number
+  "text-[#D6E0DA]", // plain
+] as const;
+
+/* Comment and string match first so keywords inside them stay literal. */
+const TOKEN_RE =
+  /(#.*$)|("[^"]*"|'[^']*')|\b(async|await|def|with|return|for|in|if|not|None|True|False|class|import|from|raise|else|elif|try|except|yield|as|and|or|is|lambda|pass)\b|\b([A-Za-z_]\w*)(?=\()|\b([A-Z][A-Za-z0-9_]*)\b|\b\d+(?:\.\d+)?\b/g;
+
+function highlight(line: string) {
+  const parts: { text: string; cls: string }[] = [];
+  let cursor = 0;
+  let plain = "";
+
+  const flushPlain = () => {
+    if (plain) {
+      parts.push({ text: plain, cls: TOKEN_CLASSES[6] });
+      plain = "";
+    }
+  };
+
+  for (const match of line.matchAll(TOKEN_RE)) {
+    const index = match.index ?? 0;
+    plain += line.slice(cursor, index);
+    flushPlain();
+    const group = match.slice(1).findIndex((capture) => capture !== undefined);
+    parts.push({ text: match[0], cls: TOKEN_CLASSES[group] ?? TOKEN_CLASSES[6] });
+    cursor = index + match[0].length;
+  }
+
+  plain += line.slice(cursor);
+  flushPlain();
+  return parts;
+}
+
+/**
+ * Slice of the real pipeline: backend/app/services/disease_service.py — the step
+ * comments are the file's own numbering (4 and 5 elided, other lines condensed).
+ */
+const PIPELINE_CODE = [
+  '"""Run the full disease classification and explanation pipeline."""',
+  "",
+  "async def predict_disease(image_bytes: bytes) -> dict[str, Any]:",
+  "    # 1. Preprocess",
+  "    input_tensor, rgb = preprocess_image(image_bytes)",
+  "",
+  "    # 2. Inference (+ exported calibration temperature, NFR-ML-003)",
+  "    with torch.no_grad():",
+  "        logits = production_bundle.disease_model(input_tensor)",
+  '    temperature = float(bundle.disease_config.get("temperature", 1.0))',
+  "    probs = classify_with_temperature(logits, temperature)[0]",
+  "",
+  "    # 3. Top-K predictions",
+  "    top_k_vals, top_k_idx = torch.topk(probs, k=5)",
+  "    class_idx = int(top_k_idx[0].item())",
+  "    class_id = bundle.disease_labels[str(class_idx)]",
+  "    confidence = round(float(top_k_vals[0].item()), 4)",
+  "",
+  "    # 6. Grad-CAM explanation",
+  "    heatmap = gradcam.generate_heatmap(input_tensor, target_class=class_idx)",
+  "    overlay = gradcam.generate_overlay(rgb, heatmap)",
+  "",
+  "    # 7. Severity",
+  "    severity = _estimate_severity(original_rgb)",
+] as const;
+
+type TreeRow = { label: string; depth: number; dir?: boolean; active?: boolean };
+
+/* Real files from the repo — backend/app on one side, ml/src on the other. */
+const TREE: TreeRow[] = [
+  { label: "backend", depth: 0, dir: true },
+  { label: "app", depth: 1, dir: true },
+  { label: "services", depth: 2, dir: true },
+  { label: "disease_service.py", depth: 3, active: true },
+  { label: "yield_service.py", depth: 3 },
+  { label: "api", depth: 2, dir: true },
+  { label: "v1", depth: 3, dir: true },
+  { label: "endpoints", depth: 4, dir: true },
+  { label: "disease.py", depth: 5 },
+  { label: "ml", depth: 0, dir: true },
+  { label: "src", depth: 1, dir: true },
+  { label: "shap_explainer.py", depth: 2 },
+];
+
+const GEAR_ICON = (
+  <>
+    <circle cx="12" cy="12" r="3.2" />
+    <path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18" />
+  </>
+);
+
+const ACTIVITY_ITEMS: { label: string; icon: ReactNode; active?: boolean }[] = [
+  {
+    label: "Explorer",
+    active: true,
+    icon: (
+      <>
+        <path d="M10 4h4l4 4v10a1 1 0 0 1-1 1h-4" />
+        <path d="M14 4v4h4" />
+        <path d="M7 7v11a1 1 0 0 0 1 1h8" />
+      </>
+    ),
+  },
+  {
+    label: "Search",
+    icon: (
+      <>
+        <circle cx="10.5" cy="10.5" r="5.5" />
+        <path d="m15 15 4.5 4.5" />
+      </>
+    ),
+  },
+  {
+    label: "Source control",
+    icon: (
+      <>
+        <circle cx="7" cy="6" r="2.2" />
+        <circle cx="7" cy="18" r="2.2" />
+        <circle cx="16.5" cy="8.5" r="2.2" />
+        <path d="M7 8.2v7.6" />
+        <path d="M16.5 10.7c0 3.5-4 4.4-7.2 5.1" />
+      </>
+    ),
+  },
+  { label: "Run and debug", icon: <path d="M9 6.8v10.4L18 12z" fill="currentColor" stroke="none" /> },
+  {
+    label: "Extensions",
+    icon: (
+      <>
+        <rect x="5" y="5" width="6.5" height="6.5" rx="1.2" />
+        <rect x="12.5" y="12.5" width="6.5" height="6.5" rx="1.2" />
+      </>
+    ),
+  },
+];
+
+/* Sample run: the server boots, one real prediction goes through. */
+const TERMINAL_LINES: { delay: number; node: ReactNode }[] = [
+  {
+    delay: 0.7,
+    node: (
+      <>
+        <span className="text-[#9BE07A]">{"$"}</span>
+        <span className="text-[#D6E0DA]">{"  uvicorn app.main:app --reload"}</span>
+      </>
+    ),
+  },
+  {
+    delay: 0.9,
+    node: (
+      <span className="text-[#7A9086]">
+        {"INFO:     Uvicorn running on http://127.0.0.1:8000"}
+      </span>
+    ),
+  },
+  {
+    delay: 1.1,
+    node: <span className="text-[#7A9086]">{"INFO:     Application startup complete."}</span>,
+  },
+  {
+    delay: 1.3,
+    node: (
+      <>
+        <span className="text-[#9CDCFE]">{"POST /api/v1/disease/predict"}</span>
+        <span className="text-[#7A9086]">{"   200   218 ms"}</span>
+      </>
+    ),
+  },
+  {
+    delay: 1.5,
+    node: (
+      <>
+        <span className="text-[#9BE07A]">{"→ Tomato___Early_blight"}</span>
+        <span className="text-[#7A9086]">{"   conf "}</span>
+        <span className="text-[#D6E0DA]">{"0.86"}</span>
+        <span className="text-[#7A9086]">{"   severity moderate · grad-cam "}</span>
+        <span className="text-[#9BE07A]">{"✓"}</span>
+      </>
+    ),
+  },
+];
+
+/** The mock window: title bar → activity bar + explorer + editor → terminal → status bar. */
+function CodeWindow({ reduced }: { reduced: boolean }) {
+  return (
+    <div className="rounded-[12px] bg-[#0B120E] p-1.5 shadow-[0_55px_110px_-42px_rgba(6,36,27,0.5)] ring-1 ring-forest/30 sm:rounded-[14px] sm:p-2">
+      <div className="overflow-hidden rounded-[8px] bg-[#0D1511] sm:rounded-[10px]">
+        {/* title bar */}
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.07] bg-[#0A100C] px-4 py-2.5">
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="size-1.5 rounded-full bg-white/20" />
+            <span className="size-1.5 rounded-full bg-white/20" />
+            <span className="size-1.5 rounded-full bg-white/20" />
+          </div>
+          <span className="hidden truncate font-mono text-[9px] tracking-[0.04em] text-[#7A9086] sm:block">
+            disease_service.py — zenvy — Visual Studio Code
+          </span>
+          <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#9BE07A]">
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-[#9BE07A]" />
+            sample
+          </span>
+        </div>
+
+        {/* editor body: activity bar + file explorer + code */}
+        <div className="grid md:grid-cols-[40px_180px_minmax(0,1fr)]">
+          <div className="hidden flex-col items-center gap-0.5 border-r border-white/[0.07] bg-[#0A100C] py-2 md:flex">
+            {ACTIVITY_ITEMS.map((item) => (
+              <span
+                key={item.label}
+                className={`grid size-9 place-items-center border-l-2 ${
+                  item.active
+                    ? "border-[#9BE07A] text-[#E4EEE7]"
+                    : "border-transparent text-[#6C8177]"
+                }`}
+              >
+                <Ico className="size-[18px]">{item.icon}</Ico>
+              </span>
+            ))}
+            <span className="mt-auto grid size-9 place-items-center text-[#6C8177]">
+              <Ico className="size-[18px]">{GEAR_ICON}</Ico>
+            </span>
+          </div>
+
+          <div className="hidden border-r border-white/[0.07] bg-[#0A100C] md:block">
+            <p className="px-3 pb-1.5 pt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#7A9086]">
+              Explorer
+            </p>
+            <p className="flex items-center gap-1 px-2 pb-1 font-mono text-[10px] font-semibold tracking-[0.06em] text-[#C9D8CF]">
+              <Ico className="size-2.5 shrink-0">
+                <path d="m7 10 5 5 5-5" />
+              </Ico>
+              zenvy
+            </p>
+            <div className="pb-2">
+              {TREE.map((row) => (
+                <div
+                  key={row.label}
+                  className={`flex items-center gap-1.5 border-l-2 py-[3px] pr-2 font-mono text-[10px] ${
+                    row.active
+                      ? "border-[#9BE07A] bg-[#9BE07A]/12 text-[#EAF6E2]"
+                      : "border-transparent text-[#9FB3A8]"
+                  }`}
+                  style={{ paddingLeft: 6 + row.depth * 9 }}
+                >
+                  {row.dir ? (
+                    <Ico className="size-2.5 shrink-0 opacity-70">
+                      <path d="m7 10 5 5 5-5" />
+                    </Ico>
+                  ) : (
+                    <FileGlyph
+                      className={`size-3 shrink-0 ${row.active ? "text-[#9BE07A]" : "text-[#519ABA]"}`}
+                    />
+                  )}
+                  <span className="truncate">{row.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="min-w-0 bg-[#0D1511]">
+            {/* tabs */}
+            <div className="flex items-stretch border-b border-white/[0.07] bg-[#0A100C]">
+              <span className="flex items-center gap-2 border-t-2 border-[#9BE07A] bg-[#0D1511] px-3 py-2 text-[11px] text-[#E4EEE7]">
+                <FileGlyph className="size-3.5 text-[#519ABA]" />
+                disease_service.py
+                <span aria-hidden="true" className="pl-0.5 text-[#8FA398]">
+                  ×
+                </span>
+              </span>
+              <span className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#7C9187]">
+                <FileGlyph className="size-3.5 text-[#519ABA]" />
+                shap_explainer.py
+              </span>
+            </div>
+
+            {/* breadcrumbs */}
+            <div className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap border-b border-white/[0.05] px-3 py-1 font-mono text-[9px] text-[#7A9086]">
+              <span>app</span>
+              <span aria-hidden="true">›</span>
+              <span>services</span>
+              <span aria-hidden="true">›</span>
+              <span>disease_service.py</span>
+              <span aria-hidden="true">›</span>
+              <span className="text-[#9FB3A8]">predict_disease</span>
+            </div>
+
+            {/* code */}
+            <div className="overflow-x-auto py-2">
+              <div className="w-max min-w-full font-mono text-[11px] leading-[1.6] sm:text-[12px]">
+                {PIPELINE_CODE.map((line, index) => (
+                  <div key={index} className="flex whitespace-pre">
+                    <span className="w-10 shrink-0 select-none pr-3 text-right text-[#6B8175]">
+                      {index + 1}
+                    </span>
+                    <span className="pr-4">
+                      {highlight(line).map((part, partIndex) => (
+                        <span key={partIndex} className={part.cls}>
+                          {part.text}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* terminal: sample run, lines land one after another */}
+        <div className="border-t border-white/[0.07] bg-[#0A100C]">
+          <div className="flex items-center justify-between border-b border-white/[0.05] px-3 py-2">
+            <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.1em]">
+              <span className="border-b border-[#9BE07A] pb-0.5 text-[#C9D8CF]">Terminal</span>
+              <span className="text-[#7A9086]">Output</span>
+              <span className="text-[#7A9086]">Problems</span>
+            </div>
+            <span className="font-mono text-[9px] text-[#7A9086]">zenvy</span>
+          </div>
+          <div className="space-y-1 overflow-x-auto px-3 py-2.5 font-mono text-[10px] leading-[1.5]">
+            {TERMINAL_LINES.map((line, index) => (
+              <motion.p
+                key={index}
+                initial={reduced ? false : { opacity: 0, x: -4 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: line.delay, ease: "easeOut" }}
+                className="whitespace-pre"
+              >
+                {line.node}
+                {index === TERMINAL_LINES.length - 1 ? (
+                  <span
+                    aria-hidden="true"
+                    className="animate-caret ml-1 inline-block h-[10px] w-[6px] translate-y-[1px] bg-[#9BE07A] align-middle"
+                  />
+                ) : null}
+              </motion.p>
+            ))}
+          </div>
+        </div>
+
+        {/* status bar */}
+        <div className="flex items-center justify-between gap-3 bg-forest px-3 py-1 font-mono text-[9px] text-leaf/85">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1">
+              <Ico className="size-3">
+                <circle cx="7" cy="6" r="2.2" />
+                <circle cx="7" cy="18" r="2.2" />
+                <circle cx="16.5" cy="8.5" r="2.2" />
+                <path d="M7 8.2v7.6" />
+                <path d="M16.5 10.7c0 3.5-4 4.4-7.2 5.1" />
+              </Ico>
+              main
+            </span>
+            <span className="hidden sm:inline">Python 3.13</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline">Ln 21, Col 52</span>
+            <span>UTF-8</span>
+            <span className="hidden sm:inline">LF</span>
+            <span>Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ReasoningSection() {
   const prefersReduced = useReducedMotion();
-  const frameRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(frameRef, { once: true, margin: "-120px" });
-  const run = inView && !prefersReduced;
-
-  // Scroll-linked reveal: the report rises from below and settles into place.
-  const { scrollYProgress } = useScroll({
-    target: frameRef,
-    offset: ["start 95%", "start 35%"],
-  });
-  const smooth = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 26,
-    restDelta: 0.001,
-  });
-  const frameY = useTransform(smooth, [0, 1], [280, 0]);
-  const frameScale = useTransform(smooth, [0, 1], [0.88, 1]);
-  const frameRotate = useTransform(smooth, [0, 1], [8, 0]);
-  const frameOpacity = useTransform(smooth, [0, 0.32], [0, 1]);
-
-  const evidence = [
-    { label: "Lesion margin", value: 0.62 },
-    { label: "Chlorotic halo", value: 0.41 },
-    { label: "Healthy tissue", value: 0.12 },
-  ];
 
   return (
     <FullBleed className="relative overflow-hidden bg-page">
@@ -825,10 +1199,10 @@ function ReasoningSection() {
       <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-14 sm:pb-24 sm:pt-16 md:pb-28 md:pt-20">
         <div className="flex items-center justify-between gap-4">
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-forest/60">
-            Explainable AI
+            Zenvy model code
           </span>
           <span className="rounded-full bg-forest px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-leaf">
-            Evidence attached
+            PyTorch · FastAPI
           </span>
         </div>
 
@@ -840,204 +1214,29 @@ function ReasoningSection() {
           className="mx-auto mt-10 max-w-3xl text-center sm:mt-12"
         >
           <h2 className="text-balance text-[clamp(30px,5.6vw,64px)] font-medium leading-[1.02] tracking-[-0.04em] text-forest">
-            Every answer comes with its{" "}
-            <em className="font-accent font-normal">reasoning.</em>
+            Read the file behind{" "}
+            <em className="font-accent font-normal">every diagnosis.</em>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-[16px] leading-[1.55] text-ink-muted">
-            Confidence, the region the model looked at, and the advisory behind the
-            recommendation — attached to the result, not hidden behind it.
+            A leaf photo goes in as bytes and comes out as a class, a calibrated
+            confidence, and a Grad-CAM overlay. This is the file that does it, abridged.
           </p>
         </motion.div>
 
+        {/* Bottom-to-top entrance, runs once: the window starts well below the\n            fold and rises into place on a spring, then the terminal output lands\n            line by line. Triggers as soon as its top edge appears so the full\n            travel is visible. */}
         <motion.div
-          ref={frameRef}
-          style={
-            prefersReduced
-              ? { opacity: 1 }
-              : {
-                  y: frameY,
-                  scale: frameScale,
-                  rotateX: frameRotate,
-                  opacity: frameOpacity,
-                  transformPerspective: 2000,
-                }
-          }
-          className="mx-auto mt-10 max-w-6xl origin-bottom will-change-transform sm:mt-14"
+          initial={prefersReduced ? false : { opacity: 0, y: 220, scale: 0.97, rotateX: 7 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ type: "spring", stiffness: 62, damping: 17, mass: 1.2 }}
+          style={{ transformPerspective: 1600, transformOrigin: "bottom center" }}
+          className="mx-auto mt-10 max-w-7xl will-change-transform sm:mt-14"
         >
-          <div className="rounded-[34px_34px_82px_34px] bg-[#0B120E] p-2 shadow-[0_55px_110px_-42px_rgba(6,36,27,0.5)] ring-1 ring-forest/30 sm:rounded-[42px_42px_110px_42px] sm:p-2.5">
-            <div className="overflow-hidden rounded-[27px_27px_70px_27px] bg-[#0D1511]">
-              {/* window chrome */}
-              <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-                <div className="flex items-center gap-1.5" aria-hidden="true">
-                  <span className="size-1.5 rounded-full bg-white/20" />
-                  <span className="size-1.5 rounded-full bg-white/20" />
-                  <span className="size-1.5 rounded-full bg-white/20" />
-                </div>
-                <span className="hidden font-mono text-[9px] uppercase tracking-[0.12em] text-white/30 sm:block">
-                  zenvy / field-report / 0123
-                </span>
-                <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#9BE07A]">
-                  <span aria-hidden="true" className="size-1.5 rounded-full bg-[#9BE07A]" />
-                  sample
-                </span>
-              </div>
-
-              <div className="grid min-h-[560px] gap-7 p-4 sm:min-h-[620px] sm:p-6 md:min-h-[700px] md:grid-cols-[0.92fr_1.08fr] md:gap-8 md:p-8">
-                {/* left — visual evidence */}
-                <div className="flex h-full min-h-[500px] flex-col rounded-[24px_10px_24px_10px] border border-white/10 bg-[#0A100C] p-5 sm:rounded-[30px_12px_30px_12px] sm:p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/35">
-                      Visual evidence
-                    </span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-white/25">
-                      grad-cam
-                    </span>
-                  </div>
-
-                  <div className="mt-5 grid grid-cols-2 gap-3">
-                    <figure>
-                      <div className="relative grid aspect-square place-items-center rounded-lg bg-[#101C15] ring-1 ring-inset ring-white/[0.06]">
-                        <LeafCanvas tone="dark" className="w-[78%]" />
-                        <span className="absolute left-2 top-2 font-mono text-[8px] uppercase tracking-[0.1em] text-white/30">
-                          original
-                        </span>
-                      </div>
-                    </figure>
-                    <figure>
-                      <div className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-[#101C15] ring-1 ring-inset ring-[#9BE07A]/25">
-                        <motion.div
-                          className="w-[78%]"
-                          initial={prefersReduced ? false : { opacity: 0 }}
-                          animate={run ? { opacity: 1 } : undefined}
-                          transition={{ duration: 0.9, delay: 0.5 }}
-                        >
-                          <LeafCanvas tone="dark" withHeat />
-                        </motion.div>
-                        <motion.span
-                          aria-hidden="true"
-                          className="absolute inset-x-2 h-px bg-[#9BE07A]/70"
-                          initial={prefersReduced ? false : { top: "10%", opacity: 0 }}
-                          animate={
-                            run ? { top: ["10%", "88%"], opacity: [0, 1, 0] } : undefined
-                          }
-                          transition={{ duration: 1.4, delay: 0.35, ease: "easeInOut" }}
-                        />
-                        <span className="absolute left-2 top-2 font-mono text-[8px] uppercase tracking-[0.1em] text-[#9BE07A]/70">
-                          overlay
-                        </span>
-                      </div>
-                    </figure>
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-1.5">
-                    {["#4477EE", "#55BB88", "#F2E23A", "#F2B53A", "#D9453B"].map((colour) => (
-                      <span
-                        key={colour}
-                        aria-hidden="true"
-                        className="h-1.5 flex-1 rounded-sm"
-                        style={{ backgroundColor: colour }}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-1.5 flex justify-between font-mono text-[8px] uppercase tracking-[0.1em] text-white/25">
-                    <span>low attention</span>
-                    <span>high</span>
-                  </div>
-                  <p className="mt-auto pt-4 text-[11px] leading-[1.5] text-white/40">
-                    Warm regions mark the pixels that most influenced the class score — the
-                    lesion edge here, not the healthy leaf.
-                  </p>
-                </div>
-
-                {/* right — answer and reasoning */}
-                <div className="flex min-h-[500px] flex-col justify-center gap-6 py-2 sm:min-h-[560px]">
-                  <div>
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/35">
-                          Diagnosis
-                        </span>
-                        <p className="mt-1 text-2xl font-semibold tracking-[-0.02em] text-[#F1F6EE]">
-                          Early blight
-                        </p>
-                        <p className="mt-0.5 text-xs text-white/40">
-                          Alternaria solani · tomato
-                        </p>
-                      </div>
-                      <span className="shrink-0 rounded-full bg-[#F2B53A]/12 px-2.5 py-1 text-[10px] font-medium text-[#F2B53A]">
-                        Moderate
-                      </span>
-                    </div>
-
-                    <div className="mt-3 flex items-center gap-3">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-                        <div
-                          className="h-full rounded-full bg-[#9BE07A] transition-[width] duration-[900ms] ease-out"
-                          style={{ width: inView || prefersReduced ? "86%" : 0 }}
-                        />
-                      </div>
-                      <span className="font-mono text-[10px] text-white/55">0.86</span>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-white/10 pt-3.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/35">
-                        Why this answer
-                      </span>
-                      <span className="font-mono text-[8px] uppercase tracking-[0.1em] text-white/25">
-                        attention share
-                      </span>
-                    </div>
-                    <div className="mt-3 flex flex-col gap-2.5">
-                      {evidence.map((row, i) => (
-                        <div key={row.label} className="flex items-center gap-3">
-                          <span className="w-[6.5rem] shrink-0 text-[11px] text-white/50">
-                            {row.label}
-                          </span>
-                          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.07]">
-                            <div
-                              className="h-full rounded-full bg-[#9BE07A]/80 transition-[width] duration-[900ms] ease-out"
-                              style={{
-                                width: inView || prefersReduced ? `${row.value * 100}%` : 0,
-                                transitionDelay: `${300 + i * 90}ms`,
-                              }}
-                            />
-                          </div>
-                          <span className="w-8 shrink-0 text-right font-mono text-[10px] text-white/35">
-                            {row.value.toFixed(2)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-[10px_22px_10px_22px] border border-white/10 bg-white/[0.03] p-3">
-                    <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/35">
-                      Recommended action
-                    </span>
-                    <p className="mt-1.5 text-[12px] leading-[1.55] text-white/65">
-                      Remove affected lower leaves and improve airflow. Apply a labelled
-                      fungicide only if spread continues past the next week.
-                    </p>
-                    <p className="mt-2 font-mono text-[8px] uppercase tracking-[0.1em] text-white/25">
-                      Source · cited crop advisory
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 px-4 py-2.5 font-mono text-[8px] uppercase tracking-[0.1em] text-white/25">
-                <span>model v0.1.0 · temperature-scaled</span>
-                <span>confidence gate 0.60</span>
-                <span className="text-[#9BE07A]/60">sample output</span>
-              </div>
-            </div>
-          </div>
+          <CodeWindow reduced={prefersReduced === true} />
         </motion.div>
 
-        <p className="mt-5 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-[#4E6355]">
-          Sample field report · crops and conditions differ
+        <p className="mt-5 text-center font-mono text-[10px] tracking-[0.04em] text-[#4E6355]">
+          backend/app/services/disease_service.py · terminal output is sample
         </p>
       </div>
     </FullBleed>

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import io
 
-from PIL import Image
-from fastapi.testclient import TestClient
-
 from app.core.rate_limit import reset_rate_limiter
+from fastapi.testclient import TestClient
+from PIL import Image
+
 from tests.conftest import build_app
 
 

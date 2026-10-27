@@ -30,7 +30,92 @@ npm run build
 For responsive validation, start the frontend and run `npm run test:e2e`.
 The suite checks all routes at 360, 390, 768, and 1280 pixels.
 
-## 2. Secrets and environment variables
+## 2. CI/CD workflows
+
+The workflow files in `.github/workflows/` automate the checks that should run
+before deployment. They are separate from the provider deployment buttons:
+GitHub Actions validates the code and builds the backend image, while Vercel,
+Render, or another host performs the actual service deployment.
+
+### `ci-frontend.yml`
+
+File: `.github/workflows/ci-frontend.yml`
+
+Runs when a pull request or `main` push changes `frontend/**` or the workflow.
+It runs:
+
+1. `npm ci`
+2. ESLint
+3. TypeScript type-checking
+4. Vitest unit/component tests
+5. Next.js production build
+6. `npm audit --omit=dev --audit-level=high`
+
+Use this workflow as the frontend merge gate. In GitHub, configure the job
+`validate` as a required status check for protected `main`.
+
+### `ci-backend.yml`
+
+File: `.github/workflows/ci-backend.yml`
+
+Runs when a pull request or `main` push changes `backend/**`,
+`ml/knowledge_base/**`, or the workflow. It runs:
+
+1. Installs the CPU Python dependencies
+2. Ruff lint check
+3. Ruff format check
+4. Full pytest suite
+5. `pip-audit -r requirements.txt`
+
+Use this workflow as the backend merge gate. Configure the `validate` job as a
+required status check before merging backend or knowledge-base changes.
+
+### `deploy-backend.yml`
+
+File: `.github/workflows/deploy-backend.yml`
+
+Runs manually or when a version tag matching `v*` is pushed. It:
+
+1. Checks out the tagged source
+2. Builds `backend/Dockerfile` using the repository root as context
+3. Adds OCI image metadata
+4. Logs in to GitHub Container Registry for tag pushes
+5. Publishes `ghcr.io/<owner>/<repository>/backend`
+
+The workflow does **not** deploy to Render automatically. This is intentional:
+the host's environment secrets, database, storage, health-check policy, and
+rollback settings must be reviewed before a production rollout.
+
+To publish a release image:
+
+```powershell
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The workflow needs the automatically provided `GITHUB_TOKEN` with package write
+permission. If the repository package is private, grant the deployment host
+permission to pull the image.
+
+### Recommended release sequence
+
+1. Open a pull request.
+2. Wait for `ci-frontend.yml` and `ci-backend.yml` to pass.
+3. Merge only after both required checks are green.
+4. Deploy the frontend Preview on Vercel.
+5. Build and publish a versioned backend image with `deploy-backend.yml`, or
+   let Render build from the same tag.
+6. Deploy the backend to the staging service.
+7. Run the staging smoke tests in section 8.
+8. Promote frontend and backend to production.
+9. Run the production smoke tests and record the image tag, URLs, readiness
+   response, and rollback result.
+
+For repositories that do not use GitHub Actions, the same commands can be run
+locally using section 1. The YAML files are automation, not additional runtime
+services.
+
+## 3. Secrets and environment variables
 
 Never put production values in Git, the frontend bundle, Dockerfile layers,
 or a committed `.env` file.
@@ -71,7 +156,7 @@ NEXT_PUBLIC_API_BASE_URL=https://api.example.com
 It must be a public backend origin without a trailing slash. `NEXT_PUBLIC_*`
 values are embedded in the browser bundle and cannot contain secrets.
 
-## 3. Supabase production setup
+## 4. Supabase production setup
 
 1. Create or select the production Supabase project.
 2. Run the migrations in `backend/app/db/migrations/`.
@@ -89,7 +174,7 @@ values are embedded in the browser bundle and cannot contain secrets.
 The storage service returns signed URLs for private buckets. A public object URL
 is not a production substitute.
 
-## 4. Model promotion and rollback
+## 5. Model promotion and rollback
 
 Promotion:
 
@@ -112,7 +197,7 @@ The image also contains local model artifacts when available, so it remains
 self-contained at this project stage. The registry becomes the source of truth
 once promotion is active.
 
-## 5. Backend deployment
+## 6. Backend deployment
 
 ### Build and run locally
 
@@ -146,7 +231,7 @@ The image exposes port 8000 and includes a Docker health check.
 The tagged image workflow publishes to GHCR. It does not silently deploy to a
 third-party host.
 
-## 6. Frontend deployment on Vercel
+## 7. Frontend deployment on Vercel
 
 1. Import the repository into Vercel.
 2. Set project root to `frontend`.
@@ -158,7 +243,7 @@ third-party host.
 
 No backend secret belongs in a Vercel variable with a `NEXT_PUBLIC_` prefix.
 
-## 7. Post-deploy smoke tests
+## 8. Post-deploy smoke tests
 
 ```powershell
 curl https://api.example.com/api/v1/health
@@ -179,7 +264,7 @@ Then verify on a phone:
 6. Open `/about` and confirm live model versions.
 7. Test a bad image, unsupported crop, offline backend, and expired signed URL.
 
-## 8. Observability and cold starts
+## 9. Observability and cold starts
 
 - Monitor `/api/v1/health/ready`, not only `/api/v1/health`.
 - Alert when readiness is non-200 or either model is unavailable.
@@ -188,7 +273,7 @@ Then verify on a phone:
 - Keep logs structured and never log image bytes, tokens, passwords, or signed
   URLs.
 
-## 9. Security checklist
+## 10. Security checklist
 
 - [ ] `APP_ENV=production`
 - [ ] `REQUIRE_MODELS=true`
@@ -202,7 +287,7 @@ Then verify on a phone:
 - [ ] Dependency and container scans run in CI
 - [ ] Secrets are rotated after accidental exposure
 
-## 10. Cost, quotas, and contingency
+## 11. Cost, quotas, and contingency
 
 Track quotas for Vercel, the backend host, Supabase database/storage, Open-Meteo,
 NASA POWER, and bandwidth. Set alerts before free-tier limits are reached.
@@ -219,7 +304,7 @@ If weather providers fail, the adapter uses its configured fallback/cache. If
 both are unavailable, return the degraded response and do not call live weather
 current.
 
-## 11. Phase 8 status
+## 12. Phase 8 status
 
 Completed in the repository:
 

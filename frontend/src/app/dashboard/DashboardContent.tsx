@@ -469,23 +469,9 @@ export function DashboardContent() {
               </span>
             </Link>
 
-            <span className="hidden h-4 w-px bg-hairline sm:block" />
-
-            <div className="hidden items-center gap-1.5 rounded-full border border-hairline bg-page px-2.5 py-0.5 text-[11px] font-mono text-forest/80 sm:flex">
-              <span className="h-2 w-2 rounded-full bg-risk-low animate-pulse" />
-              <span>Models online</span>
-            </div>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* User identification badge */}
-            <div className="hidden flex-col items-end text-right md:flex">
-              <span className="text-xs font-medium text-ink">{displayName}</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-                {user?.role || "Farmer"} · {user?.email}
-              </span>
-            </div>
-
             {/* Refresh button */}
             <button
               type="button"
@@ -546,175 +532,102 @@ export function DashboardContent() {
         </div>
       )}
 
-      {/* ── 3. HERO GREETING & METRIC STRIP ── */}
-      <section className="grid gap-4 lg:grid-cols-[1.18fr_0.82fr] lg:gap-5">
-        <div className="relative isolate min-h-[360px] overflow-hidden rounded-[30px] bg-forest p-6 text-leaf shadow-[0_28px_65px_rgba(6,71,52,0.2)] sm:p-9">
-          <div className="pointer-events-none absolute -right-20 -top-24 -z-10 h-72 w-72 rounded-full border border-leaf/10 bg-leaf/5" />
-          <div className="pointer-events-none absolute -bottom-36 left-1/3 -z-10 h-72 w-72 rounded-full border border-leaf/10" />
+      {/* ── 3. GREETING + KEY NUMBERS ── */}
+      <section className="flex flex-col gap-4">
+        <div className="relative isolate flex min-h-[236px] items-center overflow-hidden rounded-[24px] bg-forest px-6 py-8 text-leaf shadow-[0_20px_50px_rgba(6,71,52,0.18)] sm:px-9">
           <Image
             src="/mascot2.png"
-            alt="CropSense mascot checking a field forecast"
-            width={180}
-            height={180}
-            className="pointer-events-none absolute -bottom-4 right-0 hidden w-44 object-contain opacity-95 sm:block lg:right-5 lg:w-52"
+            alt=""
+            aria-hidden="true"
+            width={200}
+            height={200}
+            loading="eager"
+            style={{ height: "auto" }}
+            className="pointer-events-none absolute -bottom-2 right-3 hidden w-44 object-contain sm:block lg:right-10 lg:w-52"
           />
-          <div className="absolute right-6 top-6 hidden items-center gap-2 rounded-full border border-leaf/20 bg-black/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-leaf/75 sm:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-leaf shadow-[0_0_0_4px_rgba(224,255,194,0.12)]" />
-            Live crop workspace
-          </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-leaf/60">
-            Field intelligence · {new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" })}
-          </p>
-          <h1 className="relative z-10 mt-5 max-w-[12ch] text-4xl font-medium leading-[0.94] tracking-[-0.05em] sm:text-6xl">
-            Welcome back, <em className="font-accent font-normal">{displayName}.</em>
-          </h1>
-          <p className="relative z-10 mt-6 max-w-[42ch] text-sm leading-[1.65] text-leaf/75 sm:text-base">
-            Check a leaf, plan a harvest, or review the signals already collected from your fields.
-          </p>
-          <div className="relative z-10 mt-9 flex flex-wrap gap-3">
-            <Link
-              href="/disease"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-leaf px-5 text-sm font-semibold text-forest shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-transform hover:-translate-y-0.5"
-            >
-              Analyze a leaf <span aria-hidden="true" className="ml-2">↗</span>
-            </Link>
-            <Link
-              href="/yield"
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-leaf/35 px-5 text-sm font-medium text-leaf transition-colors hover:bg-leaf/10"
-            >
-              Forecast yield
-            </Link>
-          </div>
-          <div className="absolute bottom-7 right-7 hidden max-w-[150px] text-right font-mono text-[10px] uppercase leading-[1.5] tracking-wider text-leaf/45 sm:block">
-            Clear signals for the next field decision
+          <div className="relative z-10 max-w-[46ch]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-leaf/60">
+              Field intelligence · {new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+            </p>
+            <h1 className="mt-3 text-3xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-5xl">
+              Welcome back, <em className="font-accent font-normal">{displayName}.</em>
+            </h1>
+            <p className="mt-4 text-sm leading-[1.6] text-leaf/75 sm:text-[15px]">
+              Check a leaf, plan a harvest, or review the signals already collected from your fields.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/disease"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-leaf px-5 text-sm font-semibold text-forest transition-transform hover:-translate-y-0.5"
+              >
+                Analyze a leaf <span aria-hidden="true" className="ml-2">↗</span>
+              </Link>
+              <Link
+                href="/yield"
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-leaf/35 px-5 text-sm font-medium text-leaf transition-colors hover:bg-leaf/10"
+              >
+                Forecast yield <span aria-hidden="true" className="ml-2">↗</span>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Metric Cards Row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex min-h-[170px] flex-col justify-between rounded-[24px] border border-hairline bg-surface p-5 shadow-[0_10px_30px_rgba(6,71,52,0.04)] transition-transform hover:-translate-y-0.5 sm:p-6">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Total Diagnostics</span>
-            <span className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
+        {/* Four numbers, one card — dividers instead of four separate tiles */}
+        <div className="grid grid-cols-2 gap-y-6 rounded-[24px] border border-hairline bg-surface px-5 py-5 shadow-[0_10px_30px_rgba(6,71,52,0.04)] sm:px-6 lg:grid-cols-4 lg:divide-x lg:divide-hairline">
+          <div className="lg:pr-5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">Diagnostics</span>
+            <p className="mt-1.5 text-3xl font-semibold tracking-[-0.04em] text-ink">
               {stats?.total_disease_scans ?? (isLoading ? "…" : 0)}
-            </span>
-            <div className="flex items-center gap-1.5 text-xs text-ink-muted">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-forest" />
-              <span>{stats?.healthy_count ?? 0} healthy · {stats?.diseased_count ?? 0} diseased</span>
-            </div>
+            </p>
+            <p className="mt-1 text-xs text-ink-muted">
+              {stats?.healthy_count ?? 0} healthy · {stats?.diseased_count ?? 0} diseased
+            </p>
           </div>
 
-          <div className="flex min-h-[170px] flex-col justify-between rounded-[24px] border border-hairline bg-leaf/45 p-5 shadow-[0_10px_30px_rgba(6,71,52,0.04)] transition-transform hover:-translate-y-0.5 sm:p-6">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Crop Health Ratio</span>
-            <span className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-forest sm:text-4xl">
+          <div className="lg:px-5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">Health ratio</span>
+            <p className="mt-1.5 text-3xl font-semibold tracking-[-0.04em] text-forest">
               {stats && stats.total_disease_scans > 0
                 ? `${Math.round((stats.healthy_count / stats.total_disease_scans) * 100)}%`
-                : "100%"}
-            </span>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/70">
+                : "—"}
+            </p>
+            <div className="mt-2.5 h-1.5 w-full max-w-[9rem] overflow-hidden rounded-full bg-leaf/60">
               <div
                 className="h-full rounded-full bg-forest transition-[width] duration-500"
                 style={{
                   width: stats && stats.total_disease_scans > 0
                     ? `${(stats.healthy_count / stats.total_disease_scans) * 100}%`
-                    : "100%",
+                    : "0%",
                 }}
               />
             </div>
           </div>
 
-          <div className="flex min-h-[170px] flex-col justify-between rounded-[24px] border border-hairline bg-surface p-5 shadow-[0_10px_30px_rgba(6,71,52,0.04)] transition-transform hover:-translate-y-0.5 sm:p-6">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Yield Forecasts</span>
-            <span className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
+          <div className="lg:px-5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">Forecasts</span>
+            <p className="mt-1.5 text-3xl font-semibold tracking-[-0.04em] text-ink">
               {stats?.total_yield_forecasts ?? (isLoading ? "…" : 0)}
-            </span>
-            <span className="text-xs text-ink-muted">Across Punjab plots</span>
+            </p>
+            <p className="mt-1 text-xs text-ink-muted">Across Punjab plots</p>
           </div>
 
-          <div className="flex min-h-[170px] flex-col justify-between rounded-[24px] border border-hairline bg-surface p-5 shadow-[0_10px_30px_rgba(6,71,52,0.04)] transition-transform hover:-translate-y-0.5 sm:p-6">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Mean Expected Yield</span>
-            <span className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
+          <div className="lg:pl-5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">Mean yield</span>
+            <p className="mt-1.5 text-3xl font-semibold tracking-[-0.04em] text-ink">
               {stats?.avg_predicted_yield_tha != null
-                ? `${stats.avg_predicted_yield_tha.toFixed(2)}`
+                ? stats.avg_predicted_yield_tha.toFixed(2)
                 : "—"}
               <span className="ml-1 text-sm font-normal text-ink-muted">t/ha</span>
-            </span>
-            <span className="text-xs text-ink-muted">Based on 22 agro factors</span>
+            </p>
+            <p className="mt-1 text-xs text-ink-muted">Based on 22 agro factors</p>
           </div>
         </div>
       </section>
 
-      {/* ── 4. TWO CLEAR WORKFLOWS ── */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <div className="flex flex-col justify-between rounded-[24px] border border-hairline bg-surface p-6 shadow-[0_12px_30px_rgba(6,71,52,0.06)] transition-transform hover:-translate-y-0.5 sm:p-7">
-          <div className="flex flex-col gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-forest/60">
-              01 · Computer Vision Inference
-            </span>
-            <h2 className="text-xl font-medium tracking-tight text-ink sm:text-2xl">
-              Detect leaf pathogens <em className="font-accent font-normal italic">early.</em>
-            </h2>
-            <p className="text-sm leading-relaxed text-ink-muted">
-              Upload leaf photos to classify bacterial, viral, or fungal infections with EfficientNet-B0.
-              Includes lesion severity ratio and Grad-CAM visual attention overlays.
-            </p>
-          </div>
-          <div className="mt-6 flex items-center justify-between border-t border-hairline pt-4">
-            <Link
-              href="/disease"
-              className="inline-flex items-center gap-1.5 font-medium text-forest hover:underline text-sm"
-            >
-              Analyze new leaf →
-            </Link>
-            <span className="font-mono text-[10px] text-ink-muted uppercase">38 Classes Supported</span>
-          </div>
-        </div>
-
-        <div className="flex flex-col justify-between rounded-[24px] bg-leaf p-6 text-forest shadow-[0_12px_30px_rgba(6,71,52,0.08)] transition-transform hover:-translate-y-0.5 sm:p-7">
-          <div className="flex flex-col gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-forest/80">
-              02 · Predictive Agro-Meteorology
-            </span>
-            <h2 className="text-xl font-medium tracking-tight sm:text-2xl">
-              Forecast harvest yield <em className="font-accent font-normal italic">before sowing.</em>
-            </h2>
-            <p className="text-sm leading-relaxed text-forest/85">
-              Run gradient-boosted yield regressions (XGBoost) fusing localized weather summaries,
-              growing degree days (GDD), and soil metrics with 80% quantile uncertainty bounds.
-            </p>
-          </div>
-          <div className="mt-6 flex items-center justify-between border-t border-forest/20 pt-4">
-            <button
-              type="button"
-              onClick={() => setActiveTab("forecast")}
-              className="inline-flex items-center gap-1.5 font-medium text-forest hover:underline text-sm"
-            >
-              Estimate crop yield →
-            </button>
-            <span className="font-mono text-[10px] text-forest/70 uppercase">Wheat & Maize · Punjab</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. DASHBOARD TABS BAR ── */}
+      {/* ── 4. DASHBOARD TABS ── */}
       <section className="flex flex-col gap-6">
-        <div className="relative flex flex-col gap-3 overflow-hidden rounded-[24px] border border-hairline bg-surface px-5 py-5 shadow-[0_12px_30px_rgba(6,71,52,0.04)] sm:flex-row sm:items-end sm:justify-between sm:px-6">
-          <Image
-            src="/mascot5.png"
-            alt=""
-            width={96}
-            height={96}
-            className="pointer-events-none absolute -bottom-5 right-5 hidden w-20 opacity-90 sm:block"
-            aria-hidden="true"
-          />
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-forest/55">
-              Your field desk
-            </p>
-            <h2 className="mt-1 text-2xl font-medium tracking-tight text-ink">
-              What needs your attention?
-            </h2>
-          </div>
-          <div className="relative z-10 flex max-w-full gap-1 overflow-x-auto rounded-full border border-hairline bg-page p-1">
+        <div className="flex items-center justify-between gap-4 border-b border-hairline pb-3">
+          <div className="flex max-w-full gap-1 overflow-x-auto">
           {(
             [
               { id: "overview", label: "Overview" },
@@ -729,14 +642,18 @@ export function DashboardContent() {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
+              aria-current={activeTab === tab.id ? "page" : undefined}
               className={cn(
-                "min-h-9 shrink-0 rounded-full px-3.5 text-[11px] font-mono uppercase tracking-[0.08em] transition-colors",
+                "relative min-h-9 shrink-0 px-3 text-[12px] font-mono uppercase tracking-[0.08em] transition-colors",
                 activeTab === tab.id
-                  ? "bg-forest font-semibold text-leaf shadow-sm"
-                  : "text-ink-muted hover:bg-page hover:text-forest",
+                  ? "text-forest"
+                  : "text-ink-muted hover:text-forest",
               )}
             >
               {tab.label}
+              {activeTab === tab.id && (
+                <span aria-hidden="true" className="absolute inset-x-2 -bottom-3 h-0.5 rounded-full bg-forest" />
+              )}
             </button>
           ))}
           </div>
@@ -744,94 +661,55 @@ export function DashboardContent() {
 
         {/* ── TAB 1: OVERVIEW ── */}
         {activeTab === "overview" && (
-          <div className="flex flex-col gap-6">
-            {/* Live Model Telemetry */}
-            {modelsInfo.length > 0 && (
-              <div className="flex flex-col gap-3 rounded-2xl border border-hairline bg-surface/80 p-5 shadow-sm">
+          <div className="flex flex-col gap-4">
+            <div className="grid gap-4 lg:grid-cols-2">
+              {/* Leaf scans */}
+              <div className="flex flex-col rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-risk-low opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-risk-low" />
-                    </span>
-                    <h3 className="font-mono text-xs uppercase tracking-wider font-semibold text-forest">
-                      Operational AI Inference Engines
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[10px] text-ink-muted">Backend Telemetry · Ready</span>
+                  <h3 className="text-base font-medium text-ink">Leaf scans</h3>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("disease")}
+                    className="font-mono text-[11px] uppercase tracking-wider text-forest hover:underline"
+                  >
+                    View all ({diseaseHistory.length}) →
+                  </button>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {modelsInfo.map((m) => (
-                    <div
-                      key={m.pipeline}
-                      className="flex items-center justify-between rounded-xl border border-hairline bg-page/50 p-3.5"
-                    >
-                      <div>
-                        <span className="font-mono text-[10px] uppercase text-ink-muted">
-                          {m.pipeline === "disease" ? "Vision Diagnostic" : "Agro-Meteorology"} Pipeline
-                        </span>
-                        <p className="font-mono text-xs font-semibold text-ink">
-                          {m.name} <span className="font-normal text-ink-muted">v{m.version}</span>
-                        </p>
-                      </div>
-                      <span className="rounded-full bg-risk-low/15 px-2.5 py-0.5 font-mono text-[10px] uppercase font-semibold text-risk-low">
-                        Online
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
-            {/* Recent Scans Strip */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-ink">Recent Disease Diagnostics</h3>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("disease")}
-                  className="font-mono text-xs uppercase tracking-wider text-forest hover:underline"
-                >
-                  View all ({diseaseHistory.length}) →
-                </button>
-              </div>
-
-              {diseaseHistory.length === 0 ? (
-                <Card>
-                  <CardBody>
-                    <EmptyState
-                      title="No disease scans recorded yet"
-                      description="Analyze a plant leaf to verify health, identify foliar blights, and receive tailored treatments."
-                      action={
-                        <Link
-                          href="/disease"
-                          className={buttonClass("primary", "md", "rounded-lg text-xs font-mono uppercase")}
-                        >
-                          Run First Scan
-                        </Link>
-                      }
+                {diseaseHistory.length === 0 ? (
+                  <div className="flex flex-1 flex-col items-center gap-2.5 py-8 text-center">
+                    <Image
+                      src="/mascot1.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={96}
+                      height={96}
+                      className="h-24 w-24 object-contain"
                     />
-                  </CardBody>
-                </Card>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {diseaseHistory.slice(0, 3).map((item) => (
-                    <div
-                      key={item.id}
-                      className="group flex flex-col justify-between rounded-xl border border-hairline bg-surface p-4 shadow-sm transition-all hover:border-forest/40 hover:shadow"
+                    <p className="text-sm font-medium text-ink">No leaf scans yet</p>
+                    <p className="max-w-[38ch] text-xs leading-relaxed text-ink-muted">
+                      Upload one leaf photo to get a diagnosis, a confidence score, and a Grad-CAM
+                      overlay showing where the model looked.
+                    </p>
+                    <Link
+                      href="/disease"
+                      className={buttonClass("primary", "md", "mt-1 rounded-lg font-mono text-[11px] uppercase tracking-wider")}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-                            {item.crop} · {new Date(item.created_at).toLocaleDateString()}
-                          </span>
-                          <h4 className="mt-1 font-semibold text-ink group-hover:text-forest">
-                            {item.disease_class.replace(/___/g, " — ").replace(/_/g, " ")}
-                          </h4>
-                        </div>
+                      Run first scan
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="mt-1 flex flex-col divide-y divide-hairline/70">
+                    {diseaseHistory.slice(0, 4).map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setInspectDisease(item)}
+                        className="flex items-center gap-3 py-3 text-left transition-colors hover:bg-page/60"
+                      >
                         <span
                           className={cn(
-                            "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase font-semibold",
+                            "shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase font-semibold",
                             item.is_healthy
                               ? "bg-risk-low/15 text-risk-low"
                               : item.severity_band === "severe"
@@ -841,94 +719,74 @@ export function DashboardContent() {
                         >
                           {item.is_healthy ? "Healthy" : item.severity_band}
                         </span>
-                      </div>
-
-                      <div className="mt-4 flex flex-col gap-1.5">
-                        <div className="flex items-center justify-between text-xs text-ink-muted">
-                          <span>Confidence</span>
-                          <span className="font-mono font-medium text-ink">{(item.confidence * 100).toFixed(1)}%</span>
-                        </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-brand-100">
-                          <div className="h-full bg-forest" style={{ width: `${item.confidence * 100}%` }} />
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex items-center justify-between border-t border-hairline/60 pt-3 text-xs">
-                        <button
-                          type="button"
-                          onClick={() => setInspectDisease(item)}
-                          className="font-mono text-xs uppercase tracking-wider text-forest hover:underline"
-                        >
-                          Inspect Details →
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteDisease(item.id)}
-                          className="text-ink-muted hover:text-risk-high"
-                          title="Delete record"
-                          aria-label="Delete scan record"
-                        >
-                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Recent Yield Strip */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-ink">Recent Yield Outlooks</h3>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("yield")}
-                  className="font-mono text-xs uppercase tracking-wider text-forest hover:underline"
-                >
-                  View all ({yieldHistory.length}) →
-                </button>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-medium text-ink">
+                            {item.disease_class.replace(/___/g, " — ").replace(/_/g, " ")}
+                          </span>
+                          <span className="block font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                            {item.crop} · {new Date(item.created_at).toLocaleDateString()}
+                          </span>
+                        </span>
+                        <span className="shrink-0 font-mono text-xs text-ink-muted">
+                          {(item.confidence * 100).toFixed(0)}%
+                        </span>
+                        <svg className="h-4 w-4 shrink-0 text-ink-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {yieldHistory.length === 0 ? (
-                <Card>
-                  <CardBody>
-                    <EmptyState
-                      title="No yield forecasts run yet"
-                      description="Simulate seasonal crop yields, identify climate stress periods, and analyze 80% prediction intervals."
-                      action={
-                        <button
-                          type="button"
-                          onClick={() => setActiveTab("forecast")}
-                          className={buttonClass("primary", "md", "rounded-lg text-xs font-mono uppercase")}
-                        >
-                          Run Yield Forecast
-                        </button>
-                      }
+              {/* Yield forecasts */}
+              <div className="flex flex-col rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-medium text-ink">Yield forecasts</h3>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("yield")}
+                    className="font-mono text-[11px] uppercase tracking-wider text-forest hover:underline"
+                  >
+                    View all ({yieldHistory.length}) →
+                  </button>
+                </div>
+
+                {yieldHistory.length === 0 ? (
+                  <div className="flex flex-1 flex-col items-center gap-2.5 py-8 text-center">
+                    <Image
+                      src="/mascot3.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={96}
+                      height={96}
+                      className="h-24 w-24 object-contain"
                     />
-                  </CardBody>
-                </Card>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {yieldHistory.slice(0, 3).map((item) => (
-                    <div
-                      key={item.id}
-                      className="group flex flex-col justify-between rounded-xl border border-hairline bg-surface p-4 shadow-sm transition-all hover:border-forest/40 hover:shadow"
+                    <p className="text-sm font-medium text-ink">No forecasts yet</p>
+                    <p className="max-w-[38ch] text-xs leading-relaxed text-ink-muted">
+                      Enter your crop, district, and plot size to get an expected t/ha with an 80%
+                      interval and the factors driving it.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("forecast")}
+                      className={buttonClass("primary", "md", "mt-1 rounded-lg font-mono text-[11px] uppercase tracking-wider")}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
-                            {item.district} · Season {item.season_year}
-                          </span>
-                          <h4 className="mt-1 text-base font-semibold capitalize text-ink">
-                            {item.crop} · {item.area_ha} ha
-                          </h4>
-                        </div>
+                      Run first forecast
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-1 flex flex-col divide-y divide-hairline/70">
+                    {yieldHistory.slice(0, 4).map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setInspectYield(item)}
+                        className="flex items-center gap-3 py-3 text-left transition-colors hover:bg-page/60"
+                      >
                         <span
                           className={cn(
-                            "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase font-semibold",
+                            "shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase font-semibold",
                             item.risk_level === "low"
                               ? "bg-risk-low/15 text-risk-low"
                               : item.risk_level === "high"
@@ -936,90 +794,44 @@ export function DashboardContent() {
                               : "bg-risk-medium/15 text-risk-medium",
                           )}
                         >
-                          {item.risk_level} Risk
+                          {item.risk_level}
                         </span>
-                      </div>
-
-                      <div className="mt-4 flex items-baseline justify-between border-t border-hairline/60 pt-3">
-                        <div className="flex flex-col">
-                          <span className="text-[11px] text-ink-muted">Estimated Yield</span>
-                          <span className="text-xl font-semibold text-forest">
-                            {item.predicted_yield_tha.toFixed(2)}{" "}
-                            <span className="text-xs font-normal text-ink-muted">t/ha</span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-medium capitalize text-ink">
+                            {item.crop} · {item.district}
                           </span>
-                        </div>
-                        <div className="flex flex-col text-right">
-                          <span className="text-[11px] text-ink-muted">80% Interval</span>
-                          <span className="font-mono text-xs text-ink">
-                            [{item.interval_lower.toFixed(2)}, {item.interval_upper.toFixed(2)}]
+                          <span className="block font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                            Season {item.season_year} · {item.area_ha} ha
                           </span>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex items-center justify-between border-t border-hairline/60 pt-3 text-xs">
-                        <button
-                          type="button"
-                          onClick={() => setInspectYield(item)}
-                          className="font-mono text-xs uppercase tracking-wider text-forest hover:underline"
-                        >
-                          View Details →
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteYield(item.id)}
-                          className="text-ink-muted hover:text-risk-high"
-                          title="Delete record"
-                          aria-label="Delete yield record"
-                        >
-                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                        </span>
+                        <span className="shrink-0 font-mono text-xs font-medium text-forest">
+                          {item.predicted_yield_tha.toFixed(2)} t/ha
+                        </span>
+                        <svg className="h-4 w-4 shrink-0 text-ink-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Model Registry Telemetry Card */}
-            <div className="rounded-xl border border-hairline bg-surface p-5 shadow-sm">
-              <div className="flex items-center justify-between border-b border-hairline pb-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-forest" />
-                  <h3 className="font-medium text-ink">Active Machine Learning Engines</h3>
-                </div>
-                <span className="font-mono text-xs uppercase tracking-wider text-forest">
-                  Real-time Registry Status
+            {/* Loaded models — one line each, only live data from the backend */}
+            {modelsInfo.length > 0 && (
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border border-hairline bg-surface px-5 py-4 shadow-sm">
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">
+                  Models
                 </span>
-              </div>
-
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <div className="flex flex-col gap-1 rounded-lg border border-hairline/60 bg-page p-3.5">
-                  <span className="font-mono text-[10px] uppercase text-forest font-semibold">
-                    Disease Model (PyTorch)
+                {modelsInfo.map((m) => (
+                  <span key={m.pipeline} className="flex items-center gap-2 text-xs">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-risk-low" />
+                    <span className="font-medium text-ink">{m.name}</span>
+                    <span className="font-mono text-ink-muted">v{m.version}</span>
                   </span>
-                  <span className="font-medium text-ink">EfficientNet-B0 Disease Classifier</span>
-                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted">
-                    <span>Version: <strong className="font-mono text-ink">v0.1.0</strong></span>
-                    <span>Test Acc: <strong className="font-mono text-ink">98.41%</strong></span>
-                    <span>Macro F1: <strong className="font-mono text-ink">0.982</strong></span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1 rounded-lg border border-hairline/60 bg-page p-3.5">
-                  <span className="font-mono text-[10px] uppercase text-forest font-semibold">
-                    Yield Engine (XGBoost)
-                  </span>
-                  <span className="font-medium text-ink">XGBoost Quantile Regressor</span>
-                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted">
-                    <span>Version: <strong className="font-mono text-ink">v0.1.0</strong></span>
-                    <span>R² Score: <strong className="font-mono text-ink">0.852</strong></span>
-                    <span>MAE: <strong className="font-mono text-ink">0.34 t/ha</strong></span>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         )}
 

@@ -47,24 +47,40 @@
   --animate-marquee: marquee 28s linear infinite;
   --animate-marquee-rev: marquee 46s linear infinite reverse;
   --animate-signal-rail: signal-rail 34s linear infinite;
+  /* Terminal caret in the code-editor mock — a state indicator, not decor. */
+  --animate-caret: caret 1.05s step-end infinite;
 }
 
 @theme {
+  /* Sibling keyframes — @keyframes cannot nest inside @keyframes. */
   @keyframes marquee {
     from {
       transform: translateX(0);
     }
-
-    @keyframes signal-rail {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(calc(-50% - 6px));
-      }
-    }
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  /* Stat rail: one full set of cards is 5 cards + 5 gaps (12px), which is
+     50% + 6px of the duplicated track — hence the extra 6px in the offset. */
+  @keyframes signal-rail {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-50% - 6px));
+    }
+  }
+
+  @keyframes caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
     }
   }
 }
@@ -77,6 +93,10 @@
   }
 
   .animate-signal-rail {
+    animation: none;
+  }
+
+  .animate-caret {
     animation: none;
   }
 }
@@ -109,25 +129,4 @@ button:not(:disabled),
 [role="button"],
 label[for] {
   cursor: pointer;
-}
-
-@keyframes loader-face-bob {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-
-  50% {
-    transform: translate(-50%, -5%);
-  }
-}
-
-.loader-face-bob {
-  animation: loader-face-bob 1.8s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loader-face-bob {
-    animation: none;
-  }
 }
