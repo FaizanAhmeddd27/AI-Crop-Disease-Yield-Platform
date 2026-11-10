@@ -774,414 +774,328 @@ function HeroReport() {
   );
 }
 
-/* ── Under the hood: a VS Code window on the real disease pipeline ──────────────── */
+/* ── Living leaf intelligence: a floating leaf under scan → CAM → verdict ── */
 
-/** Small stroked icon wrapper — every mock icon is inline SVG, never emoji. */
-function Ico({ children, className = "" }: { children: ReactNode; className?: string }) {
+/**
+ * One closed blade outline. The form shading, the lesions, the Grad-CAM heat
+ * and the scan band are all clipped to it, so nothing spills past the margin.
+ */
+const LEAF_BLADE =
+  "M180 34C254 108 302 216 274 318C256 378 214 406 178 410C140 406 98 374 84 314C56 214 106 106 180 34Z";
+
+/** The midrib is drawn inline; these are the eight secondary veins. */
+const LEAF_VEINS = [
+  "M179 108C212 130 240 162 258 204",
+  "M179 170C216 196 244 232 258 276",
+  "M179 238C212 264 236 300 246 340",
+  "M179 304C204 328 220 356 226 382",
+  "M179 108C146 130 118 162 100 204",
+  "M179 170C142 196 114 232 100 276",
+  "M179 238C146 264 122 300 112 340",
+  "M179 304C154 328 138 356 132 382",
+];
+
+/** Sample lesions — the app's own warning and danger colours, lit in sequence. */
+const LESIONS = [
+  { cx: 236, cy: 152, rx: 30, ry: 21, rot: -28, delay: 0.8 },
+  { cx: 124, cy: 252, rx: 26, ry: 19, rot: 24, delay: 1.25 },
+  { cx: 212, cy: 332, rx: 21, ry: 15, rot: -12, delay: 1.7 },
+];
+
+/** One analysis cycle: 6 s. The scan sweeps 0–3 s, everything else trails it. */
+const CYCLE = 6;
+
+/** The leaf plate: shaded blade and veins, then the four evidence layers. */
+function LeafArt({ run }: { run: boolean }) {
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const id = (name: string) => `${name}-${uid}`;
+  const fill = id("fill");
+  const scanGrad = id("scan");
+  const sheen = id("sheen");
+  const clip = id("clip");
+  const heatBlur = id("heat");
+  const lesionBlur = id("lesion");
+  const formBlur = id("form");
+
   return (
     <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
+      viewBox="0 0 360 470"
+      role="img"
+      aria-label="Sample leaf analysis: the leaf turns while a scan line crosses it, the lesions light up, and a Grad-CAM heatmap spreads over the affected tissue."
+      className="h-auto w-full"
     >
-      {children}
+      <defs>
+        <linearGradient id={fill} x1="0.05" y1="0" x2="0.95" y2="0.6">
+          <stop offset="0" stopColor="#043A2B" />
+          <stop offset="0.45" stopColor="#1B6449" />
+          <stop offset="1" stopColor="#57A462" />
+        </linearGradient>
+        <linearGradient id={scanGrad} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#E0FFC2" stopOpacity="0" />
+          <stop offset="0.6" stopColor="#E0FFC2" stopOpacity="0.5" />
+          <stop offset="1" stopColor="#E0FFC2" stopOpacity="0" />
+        </linearGradient>
+        <radialGradient id={sheen} cx="0.66" cy="0.27" r="0.5">
+          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.42" />
+          <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+        <clipPath id={clip}>
+          <path d={LEAF_BLADE} />
+        </clipPath>
+        <filter id={heatBlur} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="17" />
+        </filter>
+        <filter id={lesionBlur} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+        <filter id={formBlur} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="26" />
+        </filter>
+      </defs>
+
+      {/* petiole sits behind the blade */}
+      <path
+        d="M179 398C176 424 173 446 170 466"
+        stroke="#08482F"
+        strokeWidth="9"
+        strokeLinecap="round"
+        fill="none"
+      />
+
+      <path d={LEAF_BLADE} fill={`url(#${fill})`} />
+
+      {/* form: core shadow down the left, sheen top-right, then the veins */}
+      <g clipPath={`url(#${clip})`}>
+        <ellipse
+          cx="112"
+          cy="268"
+          rx="78"
+          ry="156"
+          fill="#02231A"
+          opacity="0.34"
+          filter={`url(#${formBlur})`}
+        />
+        <rect x="0" y="0" width="360" height="470" fill={`url(#${sheen})`} />
+        <path
+          d="M180 44C178 160 179 300 178 406"
+          fill="none"
+          stroke="#C6E3AE"
+          strokeOpacity="0.5"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        {LEAF_VEINS.map((d) => (
+          <path
+            key={d}
+            d={d}
+            fill="none"
+            stroke="#C6E3AE"
+            strokeOpacity="0.32"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        ))}
+      </g>
+
+      {/* lesions illuminate just after the scan has passed over them */}
+      <g clipPath={`url(#${clip})`}>
+        {LESIONS.map((lesion) => (
+          <motion.g
+            key={`${lesion.cx}-${lesion.cy}`}
+            initial={run ? { opacity: 0 } : { opacity: 0.95 }}
+            animate={run ? { opacity: [0, 0, 0.95, 0.9, 0, 0] } : { opacity: 0.95 }}
+            transition={
+              run
+                ? {
+                    duration: CYCLE,
+                    repeat: Infinity,
+                    delay: lesion.delay,
+                    times: [0, 0.05, 0.16, 0.62, 0.78, 1],
+                    ease: "easeInOut",
+                  }
+                : { duration: 0 }
+            }
+          >
+            <g
+              transform={`rotate(${lesion.rot} ${lesion.cx} ${lesion.cy})`}
+              filter={`url(#${lesionBlur})`}
+            >
+              <ellipse
+                cx={lesion.cx}
+                cy={lesion.cy}
+                rx={lesion.rx}
+                ry={lesion.ry}
+                fill="#F2B53A"
+                opacity="0.85"
+              />
+              <ellipse
+                cx={lesion.cx}
+                cy={lesion.cy}
+                rx={lesion.rx * 0.55}
+                ry={lesion.ry * 0.55}
+                fill="#D9453B"
+                opacity="0.9"
+              />
+            </g>
+          </motion.g>
+        ))}
+      </g>
+
+      {/* Grad-CAM: spreads outward from the hot zone, then clears for the next pass */}
+      <g clipPath={`url(#${clip})`}>
+        <motion.g
+          filter={`url(#${heatBlur})`}
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
+          initial={run ? { opacity: 0, scale: 0.25 } : { opacity: 1, scale: 1 }}
+          animate={
+            run
+              ? { opacity: [0, 0, 1, 1, 0, 0], scale: [0.25, 0.25, 1, 1, 0.3, 0.25] }
+              : { opacity: 1, scale: 1 }
+          }
+          transition={
+            run
+              ? {
+                  duration: CYCLE,
+                  repeat: Infinity,
+                  delay: 2.2,
+                  times: [0, 0.08, 0.3, 0.7, 0.85, 1],
+                  ease: "easeInOut",
+                }
+              : { duration: 0 }
+          }
+        >
+          <ellipse cx="226" cy="180" rx="92" ry="108" fill="#F2E23A" opacity="0.5" />
+          <ellipse cx="232" cy="172" rx="58" ry="68" fill="#F2B53A" opacity="0.62" />
+          <ellipse cx="238" cy="164" rx="30" ry="36" fill="#D9453B" opacity="0.78" />
+          <ellipse cx="130" cy="268" rx="54" ry="48" fill="#F2E23A" opacity="0.34" />
+          <ellipse cx="128" cy="264" rx="26" ry="24" fill="#F2B53A" opacity="0.5" />
+        </motion.g>
+      </g>
+
+      {/* the scan: a soft band with a hard leading edge, top to bottom */}
+      <g clipPath={`url(#${clip})`}>
+        <motion.g
+          initial={run ? { y: -150 } : { y: 170 }}
+          animate={run ? { y: [-150, 500] } : { y: 170 }}
+          transition={
+            run
+              ? { duration: 3, repeat: Infinity, repeatDelay: 3, ease: "linear" }
+              : { duration: 0 }
+          }
+        >
+          <rect x="-40" y="0" width="440" height="120" fill={`url(#${scanGrad})`} />
+          <rect x="-40" y="117" width="440" height="3" fill="#E0FFC2" opacity="0.9" />
+        </motion.g>
+      </g>
+
+      {/* lit margin so the silhouette stays crisp on the pale page */}
+      <path d={LEAF_BLADE} fill="none" stroke="#C6E3AE" strokeOpacity="0.55" strokeWidth="1.5" />
     </svg>
   );
 }
 
-function FileGlyph({ className = "" }: { className?: string }) {
+/** The floating plate: perspective, a slow yaw, a gentle rise and fall. */
+function LivingLeaf({ reduced }: { reduced: boolean }) {
+  const run = !reduced;
+
   return (
-    <Ico className={className}>
-      <path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7l-4-4z" />
-      <path d="M14 3v4h4" />
-    </Ico>
-  );
-}
+    <div className="relative mx-auto w-full max-w-[520px] pb-10" style={{ perspective: "1500px" }}>
+      {/* cast shadow — tightens as the leaf rises, loosens as it settles */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-x-[24%] bottom-2 h-7 rounded-[50%] bg-forest/25 blur-xl"
+        initial={run ? { scaleX: 1, opacity: 0.55 } : { scaleX: 0.9, opacity: 0.45 }}
+        animate={run ? { scaleX: [1, 0.82, 1], opacity: [0.55, 0.35, 0.55] } : { scaleX: 0.9, opacity: 0.45 }}
+        transition={run ? { duration: 7, repeat: Infinity, ease: "easeInOut" } : { duration: 0 }}
+      />
 
-/* VS Code Dark+ token colours, tuned for the frame's near-black editor. */
-const TOKEN_CLASSES = [
-  "text-[#5F8A64]", // comment
-  "text-[#CE9178]", // string
-  "text-[#569CD6]", // keyword
-  "text-[#DCDCAA]", // call
-  "text-[#4EC9B0]", // type
-  "text-[#B5CE8A]", // number
-  "text-[#D6E0DA]", // plain
-] as const;
-
-/* Comment and string match first so keywords inside them stay literal. */
-const TOKEN_RE =
-  /(#.*$)|("[^"]*"|'[^']*')|\b(async|await|def|with|return|for|in|if|not|None|True|False|class|import|from|raise|else|elif|try|except|yield|as|and|or|is|lambda|pass)\b|\b([A-Za-z_]\w*)(?=\()|\b([A-Z][A-Za-z0-9_]*)\b|\b\d+(?:\.\d+)?\b/g;
-
-function highlight(line: string) {
-  const parts: { text: string; cls: string }[] = [];
-  let cursor = 0;
-  let plain = "";
-
-  const flushPlain = () => {
-    if (plain) {
-      parts.push({ text: plain, cls: TOKEN_CLASSES[6] });
-      plain = "";
-    }
-  };
-
-  for (const match of line.matchAll(TOKEN_RE)) {
-    const index = match.index ?? 0;
-    plain += line.slice(cursor, index);
-    flushPlain();
-    const group = match.slice(1).findIndex((capture) => capture !== undefined);
-    parts.push({ text: match[0], cls: TOKEN_CLASSES[group] ?? TOKEN_CLASSES[6] });
-    cursor = index + match[0].length;
-  }
-
-  plain += line.slice(cursor);
-  flushPlain();
-  return parts;
-}
-
-/**
- * Slice of the real pipeline: backend/app/services/disease_service.py — the step
- * comments are the file's own numbering (4 and 5 elided, other lines condensed).
- */
-const PIPELINE_CODE = [
-  '"""Run the full disease classification and explanation pipeline."""',
-  "",
-  "async def predict_disease(image_bytes: bytes) -> dict[str, Any]:",
-  "    # 1. Preprocess",
-  "    input_tensor, rgb = preprocess_image(image_bytes)",
-  "",
-  "    # 2. Inference (+ exported calibration temperature, NFR-ML-003)",
-  "    with torch.no_grad():",
-  "        logits = production_bundle.disease_model(input_tensor)",
-  '    temperature = float(bundle.disease_config.get("temperature", 1.0))',
-  "    probs = classify_with_temperature(logits, temperature)[0]",
-  "",
-  "    # 3. Top-K predictions",
-  "    top_k_vals, top_k_idx = torch.topk(probs, k=5)",
-  "    class_idx = int(top_k_idx[0].item())",
-  "    class_id = bundle.disease_labels[str(class_idx)]",
-  "    confidence = round(float(top_k_vals[0].item()), 4)",
-  "",
-  "    # 6. Grad-CAM explanation",
-  "    heatmap = gradcam.generate_heatmap(input_tensor, target_class=class_idx)",
-  "    overlay = gradcam.generate_overlay(rgb, heatmap)",
-  "",
-  "    # 7. Severity",
-  "    severity = _estimate_severity(original_rgb)",
-] as const;
-
-type TreeRow = { label: string; depth: number; dir?: boolean; active?: boolean };
-
-/* Real files from the repo — backend/app on one side, ml/src on the other. */
-const TREE: TreeRow[] = [
-  { label: "backend", depth: 0, dir: true },
-  { label: "app", depth: 1, dir: true },
-  { label: "services", depth: 2, dir: true },
-  { label: "disease_service.py", depth: 3, active: true },
-  { label: "yield_service.py", depth: 3 },
-  { label: "api", depth: 2, dir: true },
-  { label: "v1", depth: 3, dir: true },
-  { label: "endpoints", depth: 4, dir: true },
-  { label: "disease.py", depth: 5 },
-  { label: "ml", depth: 0, dir: true },
-  { label: "src", depth: 1, dir: true },
-  { label: "shap_explainer.py", depth: 2 },
-];
-
-const GEAR_ICON = (
-  <>
-    <circle cx="12" cy="12" r="3.2" />
-    <path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18" />
-  </>
-);
-
-const ACTIVITY_ITEMS: { label: string; icon: ReactNode; active?: boolean }[] = [
-  {
-    label: "Explorer",
-    active: true,
-    icon: (
-      <>
-        <path d="M10 4h4l4 4v10a1 1 0 0 1-1 1h-4" />
-        <path d="M14 4v4h4" />
-        <path d="M7 7v11a1 1 0 0 0 1 1h8" />
-      </>
-    ),
-  },
-  {
-    label: "Search",
-    icon: (
-      <>
-        <circle cx="10.5" cy="10.5" r="5.5" />
-        <path d="m15 15 4.5 4.5" />
-      </>
-    ),
-  },
-  {
-    label: "Source control",
-    icon: (
-      <>
-        <circle cx="7" cy="6" r="2.2" />
-        <circle cx="7" cy="18" r="2.2" />
-        <circle cx="16.5" cy="8.5" r="2.2" />
-        <path d="M7 8.2v7.6" />
-        <path d="M16.5 10.7c0 3.5-4 4.4-7.2 5.1" />
-      </>
-    ),
-  },
-  { label: "Run and debug", icon: <path d="M9 6.8v10.4L18 12z" fill="currentColor" stroke="none" /> },
-  {
-    label: "Extensions",
-    icon: (
-      <>
-        <rect x="5" y="5" width="6.5" height="6.5" rx="1.2" />
-        <rect x="12.5" y="12.5" width="6.5" height="6.5" rx="1.2" />
-      </>
-    ),
-  },
-];
-
-/* Sample run: the server boots, one real prediction goes through. */
-const TERMINAL_LINES: { delay: number; node: ReactNode }[] = [
-  {
-    delay: 0.7,
-    node: (
-      <>
-        <span className="text-[#9BE07A]">{"$"}</span>
-        <span className="text-[#D6E0DA]">{"  uvicorn app.main:app --reload"}</span>
-      </>
-    ),
-  },
-  {
-    delay: 0.9,
-    node: (
-      <span className="text-[#7A9086]">
-        {"INFO:     Uvicorn running on http://127.0.0.1:8000"}
-      </span>
-    ),
-  },
-  {
-    delay: 1.1,
-    node: <span className="text-[#7A9086]">{"INFO:     Application startup complete."}</span>,
-  },
-  {
-    delay: 1.3,
-    node: (
-      <>
-        <span className="text-[#9CDCFE]">{"POST /api/v1/disease/predict"}</span>
-        <span className="text-[#7A9086]">{"   200   218 ms"}</span>
-      </>
-    ),
-  },
-  {
-    delay: 1.5,
-    node: (
-      <>
-        <span className="text-[#9BE07A]">{"→ Tomato___Early_blight"}</span>
-        <span className="text-[#7A9086]">{"   conf "}</span>
-        <span className="text-[#D6E0DA]">{"0.86"}</span>
-        <span className="text-[#7A9086]">{"   severity moderate · grad-cam "}</span>
-        <span className="text-[#9BE07A]">{"✓"}</span>
-      </>
-    ),
-  },
-];
-
-/** The mock window: title bar → activity bar + explorer + editor → terminal → status bar. */
-function CodeWindow({ reduced }: { reduced: boolean }) {
-  return (
-    <div className="rounded-[12px] bg-[#0B120E] p-1.5 shadow-[0_55px_110px_-42px_rgba(6,36,27,0.5)] ring-1 ring-forest/30 sm:rounded-[14px] sm:p-2">
-      <div className="overflow-hidden rounded-[8px] bg-[#0D1511] sm:rounded-[10px]">
-        {/* title bar */}
-        <div className="flex items-center justify-between gap-3 border-b border-white/[0.07] bg-[#0A100C] px-4 py-2.5">
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            <span className="size-1.5 rounded-full bg-white/20" />
-            <span className="size-1.5 rounded-full bg-white/20" />
-            <span className="size-1.5 rounded-full bg-white/20" />
-          </div>
-          <span className="hidden truncate font-mono text-[9px] tracking-[0.04em] text-[#7A9086] sm:block">
-            disease_service.py — zenvy — Visual Studio Code
-          </span>
-          <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.1em] text-[#9BE07A]">
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-[#9BE07A]" />
-            sample
-          </span>
-        </div>
-
-        {/* editor body: activity bar + file explorer + code */}
-        <div className="grid md:grid-cols-[40px_180px_minmax(0,1fr)]">
-          <div className="hidden flex-col items-center gap-0.5 border-r border-white/[0.07] bg-[#0A100C] py-2 md:flex">
-            {ACTIVITY_ITEMS.map((item) => (
-              <span
-                key={item.label}
-                className={`grid size-9 place-items-center border-l-2 ${
-                  item.active
-                    ? "border-[#9BE07A] text-[#E4EEE7]"
-                    : "border-transparent text-[#6C8177]"
-                }`}
-              >
-                <Ico className="size-[18px]">{item.icon}</Ico>
-              </span>
-            ))}
-            <span className="mt-auto grid size-9 place-items-center text-[#6C8177]">
-              <Ico className="size-[18px]">{GEAR_ICON}</Ico>
-            </span>
-          </div>
-
-          <div className="hidden border-r border-white/[0.07] bg-[#0A100C] md:block">
-            <p className="px-3 pb-1.5 pt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#7A9086]">
-              Explorer
-            </p>
-            <p className="flex items-center gap-1 px-2 pb-1 font-mono text-[10px] font-semibold tracking-[0.06em] text-[#C9D8CF]">
-              <Ico className="size-2.5 shrink-0">
-                <path d="m7 10 5 5 5-5" />
-              </Ico>
-              zenvy
-            </p>
-            <div className="pb-2">
-              {TREE.map((row) => (
-                <div
-                  key={row.label}
-                  className={`flex items-center gap-1.5 border-l-2 py-[3px] pr-2 font-mono text-[10px] ${
-                    row.active
-                      ? "border-[#9BE07A] bg-[#9BE07A]/12 text-[#EAF6E2]"
-                      : "border-transparent text-[#9FB3A8]"
-                  }`}
-                  style={{ paddingLeft: 6 + row.depth * 9 }}
-                >
-                  {row.dir ? (
-                    <Ico className="size-2.5 shrink-0 opacity-70">
-                      <path d="m7 10 5 5 5-5" />
-                    </Ico>
-                  ) : (
-                    <FileGlyph
-                      className={`size-3 shrink-0 ${row.active ? "text-[#9BE07A]" : "text-[#519ABA]"}`}
-                    />
-                  )}
-                  <span className="truncate">{row.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="min-w-0 bg-[#0D1511]">
-            {/* tabs */}
-            <div className="flex items-stretch border-b border-white/[0.07] bg-[#0A100C]">
-              <span className="flex items-center gap-2 border-t-2 border-[#9BE07A] bg-[#0D1511] px-3 py-2 text-[11px] text-[#E4EEE7]">
-                <FileGlyph className="size-3.5 text-[#519ABA]" />
-                disease_service.py
-                <span aria-hidden="true" className="pl-0.5 text-[#8FA398]">
-                  ×
-                </span>
-              </span>
-              <span className="flex items-center gap-2 px-3 py-2 text-[11px] text-[#7C9187]">
-                <FileGlyph className="size-3.5 text-[#519ABA]" />
-                shap_explainer.py
-              </span>
-            </div>
-
-            {/* breadcrumbs */}
-            <div className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap border-b border-white/[0.05] px-3 py-1 font-mono text-[9px] text-[#7A9086]">
-              <span>app</span>
-              <span aria-hidden="true">›</span>
-              <span>services</span>
-              <span aria-hidden="true">›</span>
-              <span>disease_service.py</span>
-              <span aria-hidden="true">›</span>
-              <span className="text-[#9FB3A8]">predict_disease</span>
-            </div>
-
-            {/* code */}
-            <div className="overflow-x-auto py-2">
-              <div className="w-max min-w-full font-mono text-[11px] leading-[1.6] sm:text-[12px]">
-                {PIPELINE_CODE.map((line, index) => (
-                  <div key={index} className="flex whitespace-pre">
-                    <span className="w-10 shrink-0 select-none pr-3 text-right text-[#6B8175]">
-                      {index + 1}
-                    </span>
-                    <span className="pr-4">
-                      {highlight(line).map((part, partIndex) => (
-                        <span key={partIndex} className={part.cls}>
-                          {part.text}
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* terminal: sample run, lines land one after another */}
-        <div className="border-t border-white/[0.07] bg-[#0A100C]">
-          <div className="flex items-center justify-between border-b border-white/[0.05] px-3 py-2">
-            <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.1em]">
-              <span className="border-b border-[#9BE07A] pb-0.5 text-[#C9D8CF]">Terminal</span>
-              <span className="text-[#7A9086]">Output</span>
-              <span className="text-[#7A9086]">Problems</span>
-            </div>
-            <span className="font-mono text-[9px] text-[#7A9086]">zenvy</span>
-          </div>
-          <div className="space-y-1 overflow-x-auto px-3 py-2.5 font-mono text-[10px] leading-[1.5]">
-            {TERMINAL_LINES.map((line, index) => (
-              <motion.p
-                key={index}
-                initial={reduced ? false : { opacity: 0, x: -4 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: line.delay, ease: "easeOut" }}
-                className="whitespace-pre"
-              >
-                {line.node}
-                {index === TERMINAL_LINES.length - 1 ? (
-                  <span
-                    aria-hidden="true"
-                    className="animate-caret ml-1 inline-block h-[10px] w-[6px] translate-y-[1px] bg-[#9BE07A] align-middle"
-                  />
-                ) : null}
-              </motion.p>
-            ))}
-          </div>
-        </div>
-
-        {/* status bar */}
-        <div className="flex items-center justify-between gap-3 bg-forest px-3 py-1 font-mono text-[9px] text-leaf/85">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1">
-              <Ico className="size-3">
-                <circle cx="7" cy="6" r="2.2" />
-                <circle cx="7" cy="18" r="2.2" />
-                <circle cx="16.5" cy="8.5" r="2.2" />
-                <path d="M7 8.2v7.6" />
-                <path d="M16.5 10.7c0 3.5-4 4.4-7.2 5.1" />
-              </Ico>
-              main
-            </span>
-            <span className="hidden sm:inline">Python 3.13</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline">Ln 21, Col 52</span>
-            <span>UTF-8</span>
-            <span className="hidden sm:inline">LF</span>
-            <span>Python</span>
-          </div>
-        </div>
-      </div>
+      <motion.div
+        className="relative"
+        initial={run ? { rotateY: -15, y: 0 } : { rotateY: -7, y: 0 }}
+        animate={run ? { rotateY: [-15, 15, -15], y: [0, -18, 0] } : { rotateY: -7, y: 0 }}
+        transition={
+          run
+            ? {
+                rotateY: { duration: 24, repeat: Infinity, ease: "easeInOut" },
+                y: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+              }
+            : { duration: 0 }
+        }
+      >
+        <LeafArt run={run} />
+      </motion.div>
     </div>
   );
 }
 
-function ReasoningSection() {
+/** The verdict that emerges beside the leaf — a sample result card. */
+function DiagnosisCard({ reduced }: { reduced: boolean }) {
+  const rows = [
+    { k: "grad-cam focus", v: "lower-right lesion" },
+    { k: "crop · district", v: "tomato · ludhiana" },
+    { k: "advice", v: "cited source" },
+  ] as const;
+
+  return (
+    <motion.div
+      initial={
+        reduced
+          ? { opacity: 1, x: 0, y: 0, scale: 1 }
+          : { opacity: 0, x: 30, y: 16, scale: 0.96 }
+      }
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full rounded-[12px] border border-hairline bg-surface p-5 shadow-[0_18px_40px_rgba(6,71,52,0.12)] sm:p-6"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">
+            Diagnosis · sample
+          </p>
+          <h3 className="mt-2 text-[22px] font-medium leading-[1.1] tracking-[-0.5px] text-forest">
+            Early blight
+          </h3>
+          <p className="mt-1 text-sm text-ink-muted">Tomato · leaf scan 0412</p>
+        </div>
+        <SeverityBadge level="moderate" />
+      </div>
+
+      <div className="mt-4">
+        <ConfidenceBar pct={86} />
+      </div>
+      <div className="mt-2 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+        <span>confidence</span>
+        <span className="text-forest">0.86</span>
+      </div>
+
+      <dl className="mt-4 border-t border-hairline pt-1">
+        {rows.map((row) => (
+          <div
+            key={row.k}
+            className="flex items-center justify-between gap-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em]"
+          >
+            <dt className="shrink-0 text-ink-muted">{row.k}</dt>
+            <dd className="min-w-0 truncate text-right text-forest">{row.v}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p className="mt-3 flex min-w-0 items-center gap-2 border-t border-hairline pt-3 font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">
+        <LeafOrnament className="size-3.5 shrink-0 text-forest" />
+        <span className="truncate">evidence, not generated text</span>
+      </p>
+    </motion.div>
+  );
+}
+
+function LivingLeafSection() {
   const prefersReduced = useReducedMotion();
+  const reduced = prefersReduced === true;
 
   return (
     <FullBleed className="relative overflow-hidden bg-page">
-      {/* faint dot grid, faded towards the edges so it reads as texture, not wallpaper */}
+      {/* faint dot grid, masked towards the edges so it reads as texture */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -1190,53 +1104,45 @@ function ReasoningSection() {
             "radial-gradient(circle at 1px 1px, rgba(6,71,52,0.12) 1px, transparent 0)",
           backgroundSize: "24px 24px",
           maskImage:
-            "radial-gradient(ellipse 85% 75% at 50% 38%, black 20%, transparent 100%)",
+            "radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 100%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 85% 75% at 50% 38%, black 20%, transparent 100%)",
+            "radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 100%)",
         }}
       />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-14 sm:pb-24 sm:pt-16 md:pb-28 md:pt-20">
         <div className="flex items-center justify-between gap-4">
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-forest/60">
-            Zenvy model code
+            Living leaf intelligence
           </span>
           <span className="rounded-full bg-forest px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-leaf">
-            PyTorch · FastAPI
+            scan · grad-cam · diagnosis
           </span>
         </div>
 
         <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 24 }}
+          initial={reduced ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-10 max-w-3xl text-center sm:mt-12"
+          className="mt-10 max-w-3xl sm:mt-12"
         >
           <h2 className="text-balance text-[clamp(30px,5.6vw,64px)] font-medium leading-[1.02] tracking-[-0.04em] text-forest">
-            Read the file behind{" "}
-            <em className="font-accent font-normal">every diagnosis.</em>
+            Watch the model <em className="font-accent font-normal">read</em> the leaf.
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-[16px] leading-[1.55] text-ink-muted">
-            A leaf photo goes in as bytes and comes out as a class, a calibrated
-            confidence, and a Grad-CAM overlay. This is the file that does it, abridged.
+          <p className="mt-5 max-w-xl text-[16px] leading-[1.55] text-ink-muted">
+            The leaf turns while a scan crosses it. The lesions light up where the model looked,
+            the Grad-CAM heatmap spreads over them, and the diagnosis lands beside it.
           </p>
         </motion.div>
 
-        {/* Bottom-to-top entrance, runs once: the window starts well below the\n            fold and rises into place on a spring, then the terminal output lands\n            line by line. Triggers as soon as its top edge appears so the full\n            travel is visible. */}
-        <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 220, scale: 0.97, rotateX: 7 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-          viewport={{ once: true, amount: 0.05 }}
-          transition={{ type: "spring", stiffness: 62, damping: 17, mass: 1.2 }}
-          style={{ transformPerspective: 1600, transformOrigin: "bottom center" }}
-          className="mx-auto mt-10 max-w-7xl will-change-transform sm:mt-14"
-        >
-          <CodeWindow reduced={prefersReduced === true} />
-        </motion.div>
+        <div className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_330px] lg:gap-16">
+          <LivingLeaf reduced={reduced} />
+          <DiagnosisCard reduced={reduced} />
+        </div>
 
-        <p className="mt-5 text-center font-mono text-[10px] tracking-[0.04em] text-[#4E6355]">
-          backend/app/services/disease_service.py · terminal output is sample
+        <p className="mt-8 text-center font-mono text-[10px] tracking-[0.04em] text-ink-muted">
+          Sample sequence · animation only, no model runs in the browser
         </p>
       </div>
     </FullBleed>
@@ -1382,8 +1288,8 @@ export default function Home() {
       {/* 3.5 — Scrolling model coverage */}
       <FieldSignals />
 
-      {/* 4 — Explainable AI: a black field report on a dotted board */}
-      <ReasoningSection />
+      {/* 4 — Living leaf intelligence: 3D leaf, scan, Grad-CAM, diagnosis */}
+      <LivingLeafSection />
 
       {/* 4.5 — Product showcase */}
       <FadeUp>

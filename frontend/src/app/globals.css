@@ -47,8 +47,6 @@
   --animate-marquee: marquee 28s linear infinite;
   --animate-marquee-rev: marquee 46s linear infinite reverse;
   --animate-signal-rail: signal-rail 34s linear infinite;
-  /* Terminal caret in the code-editor mock — a state indicator, not decor. */
-  --animate-caret: caret 1.05s step-end infinite;
 }
 
 @theme {
@@ -72,17 +70,6 @@
       transform: translateX(calc(-50% - 6px));
     }
   }
-
-  @keyframes caret {
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0;
-    }
-  }
 }
 
 /* Motion guardrail: ticker stops for reduced-motion users. */
@@ -93,10 +80,6 @@
   }
 
   .animate-signal-rail {
-    animation: none;
-  }
-
-  .animate-caret {
     animation: none;
   }
 }
